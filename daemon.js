@@ -26,7 +26,7 @@ app.get("/ultima_porta",function(request,response){
     }else{
         var iPF = portas.splice(-1,1)[0];
         var iPI = portas.splice(-1,1)[0];
-        
+
         var novaPortaI = parseInt(iPI)+distancia_portas;
         var novaPortaF = parseInt(iPF)+distancia_portas;
         
@@ -251,7 +251,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
     if(tipo =="spawn"){
 	    //var process = childProcess.execFile(scriptPath,params);
-        var process = childProcess.execFile(scriptPath,params);
+        var process = childProcess.spawn(scriptPath,params);
         
         encoder[idCamera] = process;
         
@@ -260,12 +260,12 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
         });
 
         process.stderr.on('data', function(data) {
-            console.log('camera '+idCamera+': ');
+            console.log('camera ('+idCamera+'): recebendo video');
             console.log(data);
         });
 
         process.on('close', function() {
-            console.log('camera desligada: '+idCamera);
+            console.log('camera ('+idCamera+'): desligada');
         });
 
         callbackSucess(idCamera);
