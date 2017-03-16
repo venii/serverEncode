@@ -128,13 +128,13 @@ app.get("/fecha_relay", function(request, response){ //root dir
         if(processos[request.param('idCamera')]){
             //mata camera antes
             if(encoder[request.param('idCamera')]){
-              encoder[request.param('idCamera')].kill('SIGHUP');
+              encoder[request.param('idCamera')].kill(encoder[request.param('idCamera')].pid,'SIGHUP');
+              
             }
 
             var processo = processos[request.param('idCamera')];
-
             try{
-              processo.exit(0);
+              process.kill(processo.pid,'SIGHUP');
             }catch(ex){
               console.log(ex);
               console.log(processo);
