@@ -118,12 +118,6 @@ app.get("/fecha_relay", function(request, response){ //root dir
 }); 	
 
 
-
-
-
-
-
-
 app.get("/fecha_camera", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
     
@@ -175,7 +169,7 @@ app.get("/encode", function(request, response){ //root dir
    
     var childProcess = require('child_process');
 
-    var params = ['-re',
+    var params = ['-an',
                   '-rtsp_transport',
                   'tcp',
 
@@ -209,7 +203,8 @@ app.get("/encode", function(request, response){ //root dir
               params,
         function(idCamera){
             response.json({ idCamera:idCamera,
-                            portaUsar:request.param('portaUsar')});
+                            portaUsar:request.param('portaUsar'),
+                            wsVideo: http://rtec.westus.cloudapp.azure.com:81});
 
         }, 
         function (err) {
