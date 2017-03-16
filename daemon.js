@@ -86,7 +86,7 @@ app.get("/relay", function(request, response){ //root dir
 
     }
     
-    
+
     var childProcess = require('child_process')
     var params = [request.param('secret'),
                   request.param('portaInicial'),
@@ -125,7 +125,7 @@ app.get("/fecha_relay", function(request, response){ //root dir
     }
     //previni abrir outros relays
     try{
-        if(processos[request.param('idCamera')] !== undefined){
+        if(processos[request.param('idCamera')]){
             //mata camera antes
             if(encoder[request.param('idCamera')]){
               encoder[request.param('idCamera')].kill('SIGHUP');
