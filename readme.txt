@@ -29,3 +29,9 @@ http://rtec.westus.cloudapp.azure.com:81/encode?idCamera=1&secret=1234&portaUsar
 
 
 usar endereço para abrir com jsmpeg utilizando ws
+
+
+http://rtec.westus.cloudapp.azure.com:81/relay?idCamera=2&portaInicial=8083&portaFinal=8084&secret=1234
+
+http://rtec.westus.cloudapp.azure.com:81/encode?idCamera=2&secret=1234&portaUsar=8083&rtsp=w3host.no-ip.org:9009/11
+
