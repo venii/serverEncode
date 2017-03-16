@@ -44,31 +44,23 @@ app.get("/relay", function(request, response){ //root dir
     //request.param('portaFinal')
     //request.param('idCamera')
     if(!request.param('portaInicial')){
-      response.json({ error:'falta o parametro portaInicial.'});
-            
+      response.json({ error:'falta o parametro portaInicial.'});      
       return;
-
     }
 
     if(!request.param('portaFinal')){
-      response.json({ error:'falta o parametro portaFinal.'});
-            
+      response.json({ error:'falta o parametro portaFinal.'});    
       return;
-
     }
 
     if(!request.param('idCamera')){
-      response.json({ error:'falta o parametro idCamera.'});
-            
+      response.json({ error:'falta o parametro idCamera.'});    
       return;
-
     }
 
     if(!request.param('secret')){
-      response.json({ error:'falta o parametro secret.'});
-            
+      response.json({ error:'falta o parametro secret.'});      
       return;
-
     }
     //previni abrir outros relays
     try{
@@ -81,7 +73,6 @@ app.get("/relay", function(request, response){ //root dir
 
     }
 
-    //previni portas
     try{
         if(portas_abertas[request.param('portaInicial')] !== undefined){
             response.json({ error:'porta inicial ja usada.'});
@@ -94,6 +85,7 @@ app.get("/relay", function(request, response){ //root dir
     }catch(ex){
 
     }
+    
     
     var childProcess = require('child_process')
     var params = [request.param('secret'),
@@ -165,7 +157,12 @@ app.get("/fecha_camera", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
     
     //request.param('idCamera')
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});
+            
+      return;
 
+    }
     //previni abrir outros relays
     try{
         if(encoder[request.param('idCamera')] !== undefined){
@@ -212,30 +209,43 @@ app.get("/encode", function(request, response){ //root dir
 
     if(!request.param('rtsp')){
       response.json({ error:'falta o parametro rtsp.'});
-            
       return;
-
     }
+
     if(!request.param('idCamera')){
-      response.json({ error:'falta o parametro idCamera.'});
-            
+      response.json({ error:'falta o parametro idCamera.'});     
       return;
-
     }
+
     if(!request.param('portaUsar')){
-      response.json({ error:'falta o parametro portaUsar.'});
-            
+      response.json({ error:'falta o parametro portaUsar.'});      
       return;
-
     }
+
     if(!request.param('secret')){
-      response.json({ error:'falta o parametro secret.'});
-            
+      response.json({ error:'falta o parametro secret.'});    
       return;
+    }
+
+     try{
+      if(encoder[request.param('idCamera')]){
+        response.json({ error:'esta camera ja esta fazendo streaming.'});    
+        return;
+      }
+    }catch(ex){
 
     }
-    var childProcess = require('child_process');
 
+    try{
+      if(!processos[request.param('idCamera')]){
+        response.json({ error:'voce deve abrir o relay desta camera antes.'});    
+        return;
+      }
+    }catch(ex){
+
+    }
+
+    var childProcess = require('child_process');
     var params = ['-an',
                   '-rtsp_transport',
                   'tcp',
