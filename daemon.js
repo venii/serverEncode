@@ -27,8 +27,8 @@ app.get("/ultima_porta",function(request,response){
         var iPI = portas[portas.length-2];
         var iPF = portas[portas.length-1];
 
-        var novaPortaI = iPI+distancia_portas;
-        var novaPortaF = iPF+distancia_portas;
+        var novaPortaI = parseInt(iPI)+distancia_portas;
+        var novaPortaF = parseInt(iPF)+distancia_portas;
         
         response.json({ portaInicial:novaPortaI,
                         portaFinal :novaPortaF});
