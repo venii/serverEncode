@@ -155,7 +155,6 @@ app.get("/fecha_relay", function(request, response){ //root dir
 
             }catch(ex){
               console.log(ex);
-              console.log(processo);
             }
 
             response.json({ ok:'relay foi fechado.'});
