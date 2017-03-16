@@ -125,7 +125,12 @@ app.get("/fecha_relay", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81?idCamera=1&secret=1234&portaInicial=8081&portaFinal=8082&rtsp=w3host.no-ip.org
     
     //request.param('idCamera')
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});
+            
+      return;
 
+    }
     //previni abrir outros relays
     try{
         if(processos[request.param('idCamera')] !== undefined){
