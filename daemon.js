@@ -18,14 +18,14 @@ app.get("/ultima_porta",function(request,response){
     var port_start_in   = 8081;
     var port_start_out  = 8082;
 
-    if(portas.lenght == 0){
+    if(portas.length == 0){
         response.json({ portaInicial:port_start_in,
                         portaFinal:port_start_out});
         return;
     }else{
 
-        response.json({ portaInicial:processos[portas.lenght-1],
-                        portaFinal:processos[portas.lenght-2]});
+        response.json({ portaInicial:processos[portas.length-1],
+                        portaFinal:processos[portas.length-2]});
         return;
     }
     
