@@ -24,9 +24,9 @@ app.get("/ultima_porta",function(request,response){
                         portaFinal:port_start_out});
         return;
     }else{
-        var iPI = portas[portas.length-2];
-        var iPF = portas[portas.length-1];
-
+        var iPF = portas.splice(-1,1)[0];
+        var iPI = portas.splice(-1,1)[0];
+        
         var novaPortaI = parseInt(iPI)+distancia_portas;
         var novaPortaF = parseInt(iPF)+distancia_portas;
         
