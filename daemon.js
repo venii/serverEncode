@@ -204,7 +204,7 @@ app.get("/encode", function(request, response){ //root dir
         function(idCamera){
             response.json({ idCamera:idCamera,
                             portaUsar:request.param('portaUsar'),
-                            wsVideo: http://rtec.westus.cloudapp.azure.com:81});
+                            wsVideo: "ws://"+request.headers.host+":"+request.param('portaUsar')});
 
         }, 
         function (err) {
