@@ -139,7 +139,15 @@ app.get("/fecha_relay", function(request, response){ //root dir
               encoder[request.param('idCamera')].kill('SIGHUP');
             }
 
-            processos[request.param('idCamera')].exit(0);
+            var processo = processos[request.param('idCamera')];
+
+            try{
+              processo.exit(0);
+            }catch(ex){
+              console.log(ex);
+              console.log(processo);
+            }
+
             response.json({ ok:'relay foi fechado.'});
             return;
         }else{
