@@ -195,6 +195,8 @@ app.get("/encode", function(request, response){ //root dir
                   ];
     
     console.log('ffmpeg.exe '+params.join(' '));
+    
+    hostSemPorta = request.headers.host.split(":")[0];
 
     runScript(childProcess,
               "spawn",
@@ -204,7 +206,7 @@ app.get("/encode", function(request, response){ //root dir
         function(idCamera){
             response.json({ idCamera:idCamera,
                             portaUsar:request.param('portaUsar'),
-                            wsVideo: "ws://"+request.headers.host+":"+request.param('portaUsar')});
+                            wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsar')});
 
         }, 
         function (err) {
@@ -270,3 +272,4 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     }
 
 }
+
