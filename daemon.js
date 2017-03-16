@@ -17,7 +17,8 @@ app.get("/ultima_porta",function(request,response){
     
     var port_start_in   = 8081;
     var port_start_out  = 8082;
-
+    var distancia_portas= 2;
+    
     if(portas.length == 0){
         response.json({ portaInicial:port_start_in,
                         portaFinal:port_start_out});
@@ -25,9 +26,9 @@ app.get("/ultima_porta",function(request,response){
     }else{
         var iPI = portas[portas.length-1];
         var iPF = portas[portas.length-2];
-        
-        var novaPortaI = iPI++;
-        var novaPortaF = iPF++;
+
+        var novaPortaI = iPI+distancia_portas;
+        var novaPortaF = iPF+distancia_portas;
         
         response.json({ portaInicial:novaPortaI,
                         portaFinal :novaPortaF});
