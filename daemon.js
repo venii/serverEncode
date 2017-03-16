@@ -10,12 +10,14 @@ var encoder   = {};
 var processos = {};
 var portas_abertas = {};
 
-var port_start_in   = 8081;
-var port_start_out  = 8082;
+
 
 app.get("/ultima_porta",function(request,response){
     var portas = Object.keys(portas_abertas);
-    console.log(portas);
+    
+    var port_start_in   = 8081;
+    var port_start_out  = 8082;
+
     if(portas.lenght == 0){
         response.json({ portaInicial:port_start_in,
                         portaFinal:port_start_out});
