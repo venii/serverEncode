@@ -206,4 +206,4 @@ ffmpeg \
     http://localhost:8081/supersecret
 
 
-    ffmpeg -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -f mpegts -codec:v mpeg1video -s 340x340 -r 25 -b:v 1000k -bf 0 -muxdelay 0.001 -an ^"http://rtec.westus.cloudapp.azure.com:8081/1234^"
+    ffmpeg -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9010/Streaming/Channels/2^" -f mpegts -codec:v mpeg1video -s 340x340 -r 25 -b:v 1000k -bf 0 -muxdelay 0.001 -an ^"http://rtec.westus.cloudapp.azure.com:8081/1234^"
