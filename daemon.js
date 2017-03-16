@@ -129,15 +129,29 @@ app.get("/fecha_relay", function(request, response){ //root dir
             if(encoder[request.param('idCamera')]){
               var pidCamera = encoder[request.param('idCamera')].pid;
               process.kill(pidCamera,'SIGINT');
+              
               console.log('PID CAMERA KILL',pidCamera);
               delete encoder[request.param('idCamera')];
             }
 
             var processo = processos[request.param('idCamera')];
             try{
-              console.log('PID RELAY KILL',processo.pid);
               process.kill(processo.pid,'SIGINT');
+              
+              console.log('PID RELAY KILL',processo.pid);
               delete processos[request.param('idCamera')];
+              
+              portasADeletar = portas_abertas.filter(function(v,i){
+                if(v == request.param('idCamera')){
+                  return i;
+                }
+              });
+
+              for(iPortasDel in portasADeletar){
+                portaI = portasADeletar[iPortasDel];
+                delete portas_abertas[portaI];
+              }
+
             }catch(ex){
               console.log(ex);
               console.log(processo);
@@ -155,16 +169,13 @@ app.get("/fecha_relay", function(request, response){ //root dir
     }
 }); 	
 
-
 app.get("/fecha_camera", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
     
     //request.param('idCamera')
     if(!request.param('idCamera')){
       response.json({ error:'falta o parametro idCamera.'});
-            
       return;
-
     }
     //previni abrir outros relays
     try{
@@ -182,27 +193,6 @@ app.get("/fecha_camera", function(request, response){ //root dir
         response.json({ error:'camera não foi achada.'});
     }
 });     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.get("/encode", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81/encode?idCamera=1&portaUsar=8082&rtsp=w3host.no-ip.org:9009/11&secret=1234
@@ -252,18 +242,13 @@ app.get("/encode", function(request, response){ //root dir
     var params = ['-an',
                   '-rtsp_transport',
                   'tcp',
-
                   '-i',
-                  'rtsp://'+request.param('rtsp'),
-                  
-                  '-an',
-                  
+                  'rtsp://'+request.param('rtsp'),  
+                  '-an',                 
                   '-codec:v', 
-                  'mpeg1video',
-                    
+                  'mpeg1video',   
                   '-f',
                   'mpegts',
-
                   '-s', '340x340', 
                   '-r', '25', 
                   '-b:v', '150k', 
@@ -294,7 +279,6 @@ app.get("/encode", function(request, response){ //root dir
     });
     
 }); 	
-
 
 app.listen(port);
 
