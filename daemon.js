@@ -23,8 +23,11 @@ app.get("/ultima_porta",function(request,response){
                         portaFinal:port_start_out});
         return;
     }else{
-        var novaPortaI = processos[portas.length-1]++;
-        var novaPortaF = processos[portas.length-2]++;
+        var iPI = portas[portas.length-1];
+        var iPF = portas[portas.length-2];
+        
+        var novaPortaI = iPI++;
+        var novaPortaF = iPF++;
         
         response.json({ portaInicial:novaPortaI,
                         portaFinal :novaPortaF});
