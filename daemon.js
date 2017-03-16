@@ -115,27 +115,26 @@ app.get("/relay", function(request, response){ //root dir
 
 app.get("/fecha_relay", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81?idCamera=1&secret=1234&portaInicial=8081&portaFinal=8082&rtsp=w3host.no-ip.org
-    
     //request.param('idCamera')
-    if(!request.param('idCamera')){
-      response.json({ error:'falta o parametro idCamera.'});
-            
-      return;
 
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});    
+      return;
     }
-    //previni abrir outros relays
+
     try{
         if(processos[request.param('idCamera')]){
-            //mata camera antes
-            if(encoder[request.param('idCamera')]){
-              encoder[request.param('idCamera')].kill(encoder[request.param('idCamera')].pid,'SIGHUP');
+            var childProcess = require('child_process');
+
+            if(encoder[request.param('idCamera')])
+              childProcess.kill(encoder[request.param('idCamera')].pid,'SIGHUP');
               console.log('PID CAMERA KILL',encoder[request.param('idCamera')].pid);
             }
 
             var processo = processos[request.param('idCamera')];
             try{
               console.log('PID RELAY KILL',processo.pid);
-              process.kill(processo.pid,'SIGHUP');
+              childProcess.kill(processo.pid,'SIGHUP');
             }catch(ex){
               console.log(ex);
               console.log(processo);
