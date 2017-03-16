@@ -126,9 +126,10 @@ app.get("/fecha_relay", function(request, response){ //root dir
         if(processos[request.param('idCamera')]){
             var childProcess = require('child_process');
 
-            if(encoder[request.param('idCamera')])
-              childProcess.kill(encoder[request.param('idCamera')].pid,'SIGHUP');
-              console.log('PID CAMERA KILL',encoder[request.param('idCamera')].pid);
+            if(encoder[request.param('idCamera')]){
+              var pidCamera = encoder[request.param('idCamera')].pid;
+              childProcess.kill(pidCamera,'SIGHUP');
+              console.log('PID CAMERA KILL',pidCamera);
             }
 
             var processo = processos[request.param('idCamera')];
