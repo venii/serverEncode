@@ -134,8 +134,12 @@ app.get("/fecha_relay", function(request, response){ //root dir
     //previni abrir outros relays
     try{
         if(processos[request.param('idCamera')] !== undefined){
-
-            processos[request.param('idCamera')].kill('SIGHUP');
+            //mata camera antes
+            if(encoder[request.param('idCamera')]){
+              encoder[request.param('idCamera').kill('SIGHUP');
+            }
+            
+            processos[request.param('idCamera')].exit(0);
             response.json({ ok:'relay foi fechado.'});
             return;
         }else{
@@ -197,7 +201,7 @@ app.get("/encode", function(request, response){ //root dir
     //request.param('rtsp')
     //request.param('idCamera')
     //request.param('portaUsar')
-    
+
     if(!request.param('rtsp')){
       response.json({ error:'falta o parametro rtsp.'});
             
