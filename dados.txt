@@ -1,0 +1,209 @@
+ffmpeg -i ^"rtsp://192.168.0.41:554/11^" -vn -f webm -cluster_size_limit 2M -cluster_time_limit 5100 -content_type audio/webm ^"icecast://camera:camera@localhost:8000/camera.ogg^"
+
+
+transformar para hls e ver porque ele nao abre o player pra radio local
+
+ffmpeg -i ^"rtsp://192.168.0.41:554/11^" -an -f mpeg ^"icecast://camera:camera@localhost:8000/camera.ogg^"
+
+
+
+
+##ICECAST MP3 LOW LATENCY
+ffmpeg -i ^"rtsp://192.168.0.41:554/11^" -an -f webm -cluster_size_limit 2M -cluster_time_limit 5100 -content_type audio/webm ^"icecast://camera:camera@localhost:8000/camera.ogg^"
+
+
+ffmpeg -i ^"rtsp://192.168.0.41:554/11^" -an -f webm -cluster_size_limit 200 -cluster_time_limit 5100 -content_type audio/webm ^"icecast://camera:camera@localhost:8000/camera.ogg^"
+
+
+
+//webm
+
+
+
+
+
+
+##RSTP DLINK DC-2012
+## MENOS DELAY
+rtsp://192.168.0.35/play1.sdp
+ffmpeg -i ^"rtsp://192.168.0.35/play1.sdp^" -vn -ac 1 -ar 44100 -ab 500k -f mp3 ^"icecast://camera:camera@localhost:8000/camera.ogg^"
+
+##MENOS DELAY MP3
+ffmpeg -i ^"rtsp://192.168.0.35/play1.sdp^" -vn -ac 1 -ar 44100 -ab 500k -f mp3 ^"icecast://camera:camera@localhost:8000/mp3/camera.mp3^"
+
+
+
+ffmpeg -i ^"rtsp://192.168.0.34:554/onvif1^" -vn -ac 1 -ar 44100 -ab 500k -f mp3 ^"icecast://camera:camera@localhost:8000/mp3/camera.mp3^"
+
+
+
+
+//tira foto
+http://192.168.0.41/tmpfs/snap.jpg?usr=admin&pwd=03082012
+
+
+//movie iphone
+http://192.168.0.41/iphone/11
+
+http://192.168.0.41/cgi-bin/hi3510/mjpegstream.cgi?-chn=11&-usr=admin&-pwd=03082012
+
+
+##STREAM PARA WS TODAS CAM -r framerate 30
+##
+ffmpeg -i ^"rtsp://192.168.0.34:554/play1.sdp^"  -f mpegts -codec:v mpeg1video -s 340x340  -r 30 -b:v 100k -bf 0 -muxdelay 0.001 ^"http://localhost:8081/1234^"
+
+
+ffmpeg -i ^"rtsp://192.168.0.35/onvif1^"  -f mpegts -codec:v mpeg1video -s 340x340  -r 30 -b:v 100k -bf 0 -muxdelay 0.001 ^"http://localhost:8081/1234^"
+
+
+##GRAVA DO MIC em g726
+ffmpeg -f dshow -i audio="Microfone (Realtek High Definition Audio)" -acodec pcm_alaw -ar 8000 teste2.wav
+
+
+ffmpeg -f dshow -i audio="Microfone (Realtek High Definition Audio)" -acodec pcm_alaw -ar 8000 - | node speaker 192.168.0.35 admin:
+
+
+
+
+curl -vv -X POST -d @teste2.wav http://admin:03082012@192.168.0.41/img/g711a.cgi --header "Content-Type:audio/x-wav"
+
+#g726.cgi
+
+curl -vv --data-binary @teste.wav http://192.168.0.41/img/g711a.cgi
+
+curl -vv --data-binary @testcam.wav http://192.168.1.195/img/g711a.cgi
+
+
+
+curl -vv -X POST -d @teste2.wav http://admin:@192.168.0.35/dev/speaker.cgi --header "Content-Type:audio/x-wav"
+
+
+
+# play audio and stream
+ffmpeg -i teste.wav -f mulaw -ar 8000 - && node speaker 192.168.0.35 admin:
+
+
+
+
+curl -v -i -X POST -d @teste2.wav  -H "Authorization: Basic YWRtaW46YWRtaW4=" -H  "Content-Type: audio/ACAS" -H  "Content-length: 0"  http://192.168.0.35/dev/speaker.cgi?client=F8-A9-63-60-5C-44
+
+
+curl -vv --data-binary @teste.wav -H  "Content-Type: audio/ACAS" http://admin:admin@192.168.0.35/dev/speaker.cgi
+
+curl -vv --data-binary @teste.wav -H  "Content-Type: audio/ACAS" -H "Transfer-Encoding: chunked"http://admin:admin@192.168.0.35/ipcam/speakstream.cgi
+
+/ipcam/speakstream.cgi
+
+curl -H http://admin:admin@192.168.0.35/dev/speaker.cgi?client=F8-A9-63-60-5C-44
+
+
+curl -X HEAD http://admin:admin@192.168.0.35/dev/speaker.cgi?client=F8-A9-63-60-5C-44
+
+
+
+
+#LOAD SONG AND PASS TO API - FAIL
+ffmpeg -i jh.mp3 -f s16le -ac 1 -ar 8000 - && node speaker 192.168.0.35 admin:admin
+
+
+
+
+#node mic 192.168.0.35 admin:admin && ffplay -f mulaw -ar 8000 -
+
+
+
+
+
+
+
+##USAR PARA RTEC
+
+ffmpeg -i ^"rtsp://192.168.0.35/play1.sdp^" -vn -ac 1 -ar 44100 -ab 500k -f mp3 ^"icecast://camera:camera@localhost:8000/mp3/camera.mp3^"
+
+
+ffmpeg -i ^"rtsp://192.168.0.35/play1.sdp^"  -f mpegts -codec:v mpeg1video -s 340x340 -r 30 -b:v 1000k -bf 0 -muxdelay 0.001 ^"http://localhost:8081/1234^"
+
+
+#CAMERA XINGLING
+
+ffmpeg -i ^"rtsp://192.168.0.36:554/11^"  -f mpegts -codec:v mpeg1video -s 340x340 -r 40 -b:v 100k -bf 3 -muxdelay 0.001 ^"http://localhost:8081/1234^"
+
+ffmpeg -i ^"rtsp://192.168.0.36:554/11^" -f mpegts -codec:v mpeg1video -r 24 ^"http://localhost:8081/1234^"
+
+
+ffmpeg -i ^"rtsp://192.168.0.36/11^" -vn -ac 2 -ar 22050 -ab 100k -f mp3 ^"icecast://camera:camera@localhost:8000/mp3/camera.mp3^"
+
+#AZURE
+ffmpeg -an -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -an -f mpegts -codec:v mpeg1video -s 340x340 -r 25 -b:v 150k -bf 3 -muxdelay 0.001 -pix_fmt yuv420p -an ^"http://localhost:8081/1234^"
+
+trocar db
+ws://w3host.no-ip.org:8082
+ws://40.86.180.149:8082
+
+dns azure rtec.westus.cloudapp.azure.com
+
+#azure
+
+
+"node jsmpeg-master/websocket-relay.js 1234 8081 8082"
+
+
+ffmpeg -vn -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -vn -ac 2 -ar 22050 -ab 100k -f mp3 ^"icecast://camera:camera@localhost:8000/camera.mp3^"
+
+
+
+
+ffmpeg -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -vcodec libx264 -pix_fmt yuv420p -an -f mpegts ^"http://localhost:8081/1234^"
+
+
+#stat icecast kh
+cd C:\Program Files (x86)\Icecast KH>
+icecast.exe -c icecast.xml
+
+
+http://rtec.westus.cloudapp.azure.com:81/?daemonName=relayCamera1&portaInicial=8081&portaFinal=8082&rtsp=w3host.no-ip.org
+
+
+
+
+
+
+
+
+
+ffmpeg -an -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -an -vcodec mpeg1video -s 340x340 -r 25 -b:v 150k -threads 1 -an -f mpegts ^"http://localhost:8083/1234^"
+
+
+
+#TESTES
+ffmpeg -an -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -an -c:v libx264 -s 320x200 -b:v 150k -preset:v fast -profile:v baseline -level 1.2 -r 25 -f mpegts ^"http://localhost:8083/1234^"
+
+
+
+
+ffmpeg -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -codec:v libx264 -profile:v baseline -preset slow -b:v 250k -maxrate 250k -bufsize 500k -vf scale=-1:360 -threads 0 -an -f mpegts ^"http://localhost:8083/1234^"
+
+
+
+ffmpeg -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -c:v libx264 -crf 19 -level 3.1 -preset slow -tune film -filter:v scale=-1:380 -sws_flags lanczos -an -f mpegts ^"http://localhost:8083/1234^"
+
+
+
+
+
+
+
+
+
+ffmpeg -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -f mpegts -codec:v mpeg1video -s 340x340 -r 25 -b:v 1000k -bf 0 -muxdelay 0.001 -an ^"http://localhost:8081/1234^"
+
+
+ffmpeg \
+    -f v4l2 \
+        -framerate 25 -video_size 640x480 -i /dev/video0 \
+    -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 \
+        -muxdelay 0.001 \
+    http://localhost:8081/supersecret
+
+
+    ffmpeg -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -f mpegts -codec:v mpeg1video -s 340x340 -r 25 -b:v 1000k -bf 0 -muxdelay 0.001 -an ^"http://rtec.westus.cloudapp.azure.com:8081/1234^"

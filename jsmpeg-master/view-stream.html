@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSMpeg Stream Client</title>
+	<style type="text/css">
+		html, body {
+			background-color: #111;
+			text-align: center;
+		}
+	</style>
+	
+</head>
+<body>
+	<!--<canvas id="video-canvas"></canvas>
+	<script type="text/javascript" src="jsmpeg.min.js"></script>
+	<script type="text/javascript">
+		var canvas = document.getElementById('video-canvas');
+		var url = 'ws://'+document.location.hostname+':8082/';
+		var player = new JSMpeg.Player(url, {canvas: canvas});
+	</script>-->
+
+	<object ID="MediaPlayer" WIDTH="320" HEIGHT="270" CLASSID="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" STANDBY="Loading Windows Media Player components..." TYPE="application/x-oleobject" CODEBASE="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112">
+
+		<param name="autoStart" value="True">
+
+		<param name="filename" value="rtsp://192.168.0.25:554/onvif2">
+
+		<param NAME="ShowControls" VALUE="False">
+
+		<param NAME="ShowStatusBar" VALUE="False">
+
+		<embed TYPE="application/x-mplayer2" SRC="rtsp://192.168.0.25:554/onvif2" NAME="MediaPlayer" WIDTH="320" HEIGHT="270" autostart="1" showcontrols="0"></embed>
+
+	</object>
+
+</body>
+</html>
