@@ -135,7 +135,7 @@ app.get("/fecha_relay", function(request, response){ //root dir
             var processo = processos[request.param('idCamera')];
             try{
               console.log('PID RELAY KILL',processo.pid);
-              childProcess.kill(processo.pid,'SIGINT');
+              process.kill(processo.pid,'SIGINT');
             }catch(ex){
               console.log(ex);
               console.log(processo);
