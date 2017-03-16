@@ -141,15 +141,16 @@ app.get("/fecha_relay", function(request, response){ //root dir
               console.log('PID RELAY KILL',processo.pid);
               delete processos[request.param('idCamera')];
               
-              portasADeletar = portas_abertas.filter(function(v,i){
-                if(v == request.param('idCamera')){
-                  return i;
-                }
-              });
 
-              for(iPortasDel in portasADeletar){
-                portaI = portasADeletar[iPortasDel];
-                delete portas_abertas[portaI];
+              var portasIndex = Object.keys(portas_abertas);
+              
+
+              for(iPortasDel in portasIndex){
+                portaI = portasIndex[iPortasDel];
+                
+                if(portas_abertas[portaI] == request.param('idCamera')){
+                  delete portas_abertas[portaI];
+                }
               }
 
             }catch(ex){
