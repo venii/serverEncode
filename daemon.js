@@ -99,8 +99,8 @@ app.get("/relay", function(request, response){ //root dir
 
         function(idCamera){
 
-          portas_abertas[request.param('portaInicial')] = 1;
-    	    portas_abertas[request.param('portaFinal')]   = 1;
+          portas_abertas[request.param('portaInicial')] = idCamera;
+    	    portas_abertas[request.param('portaFinal')]   = idCamera;
 
           response.json({ idCamera:idCamera, 
                           portaUsar:request.param('portaInicial')});
@@ -322,8 +322,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
             invoked = true;
 
-            var err = code === 0 ? null : new Error('exit code ' + code);
-            
+            //var err = code === 0 ? null : new Error('exit code ' + code);
+            err = "Fechando processo.";
             callbackError(err);
         });
         callbackSucess(idCamera);
