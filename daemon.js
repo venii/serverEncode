@@ -43,7 +43,33 @@ app.get("/relay", function(request, response){ //root dir
     //request.param('portaInicial')
     //request.param('portaFinal')
     //request.param('idCamera')
+    if(!request.param('portaInicial')){
+      response.json({ error:'falta o parametro portaInicial.'});
+            
+      return;
 
+    }
+
+    if(!request.param('portaFinal')){
+      response.json({ error:'falta o parametro portaFinal.'});
+            
+      return;
+
+    }
+
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});
+            
+      return;
+
+    }
+
+    if(!request.param('secret')){
+      response.json({ error:'falta o parametro secret.'});
+            
+      return;
+
+    }
     //previni abrir outros relays
     try{
         if(processos[request.param('idCamera')] !== undefined){
@@ -82,7 +108,7 @@ app.get("/relay", function(request, response){ //root dir
         function(idCamera){
 
           portas_abertas[request.param('portaInicial')] = 1;
-    	  portas_abertas[request.param('portaFinal')]   = 1;
+    	    portas_abertas[request.param('portaFinal')]   = 1;
 
           response.json({ idCamera:idCamera, 
                           portaUsar:request.param('portaInicial')});
@@ -166,7 +192,31 @@ app.get("/encode", function(request, response){ //root dir
     //request.param('rtsp')
     //request.param('idCamera')
     //request.param('portaUsar')
-   
+    
+    if(!request.param('rtsp')){
+      response.json({ error:'falta o parametro rtsp.'});
+            
+      return;
+
+    }
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});
+            
+      return;
+
+    }
+    if(!request.param('portaUsar')){
+      response.json({ error:'falta o parametro portaUsar.'});
+            
+      return;
+
+    }
+    if(!request.param('secret')){
+      response.json({ error:'falta o parametro secret.'});
+            
+      return;
+
+    }
     var childProcess = require('child_process');
 
     var params = ['-an',
