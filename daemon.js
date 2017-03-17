@@ -326,7 +326,7 @@ app.get("/encode_audio", function(request, response){ //root dir
                   '-ab', '100k', 
                   '-f', 'mp3', 
                   
-                  'icecast://camera:camera@localhost:8000/mp3/'+request.param('idCamera')+".mp3"
+                  'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                   ];
     
     console.log('ffmpeg.exe '+params.join(' '));
