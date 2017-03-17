@@ -431,7 +431,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             if(tipo == "video")
               console.log('camera video ('+idCamera+'): recebendo video');
             if(tipo == "audio")
-              console.log('camera audio ('+idCamera+'): recebendo video');
+              console.log('camera audio ('+idCamera+'): recebendo video',data);
         });
 
         process.on('close', function() {
