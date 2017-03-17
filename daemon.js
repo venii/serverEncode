@@ -277,6 +277,7 @@ app.get("/fecha_camera", function(request, response){ //root dir
             
             var encodeCam = encoder[request.param('idCamera')]
             process.kill(encodeCam.pid,'SIGINT');
+            delete encoder[request.param('idCamera')];
             response.json({ ok:'camera foi fechada.'});
             return;
         }else{
@@ -434,10 +435,13 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
         });
 
         process.on('close', function() {
-            if(tipo == "video")
+            if(tipo == "video"){
               console.log('camera video ('+idCamera+'): desligada');
-            if(tipo == "audio")
+            }
+            if(tipo == "audio"){
               console.log('camera audio ('+idCamera+'): desligada');
+            }
+           
         });
 
         callbackSucess(idCamera);
