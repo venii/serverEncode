@@ -370,8 +370,8 @@ app.get("/fecha_audio", function(request, response){ //root dir
 });  
 
 app.listen(port);
-
-
+//no evento de sair do webrelay
+//fazer o webrealy do jsmpeg enviar sinal para desligar ffmpeg e relay
 
 function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,callbackError) {
 
