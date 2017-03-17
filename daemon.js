@@ -364,6 +364,7 @@ app.get("/fecha_audio", function(request, response){ //root dir
             var encodeCam = audioEncoder[request.param('idCamera')]
             process.kill(encodeCam.pid,'SIGINT');
             response.json({ ok:'audio foi fechada.'});
+            delete audioEncoder[request.param('idCamera')];
             return;
         }else{
             response.json({ error:'audio não foi achada.'});
