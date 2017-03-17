@@ -410,8 +410,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     }
 
     if(tipo =="video" || tipo == "audio"){
-	      var process = childProcess.execFile(scriptPath,params);
-        //var process = childProcess.spawn(scriptPath,params);
+	      //var process = childProcess.execFile(scriptPath,params);
+        var process = childProcess.spawn(scriptPath,params);
         
         if(tipo == "video"){
           encoder[idCamera] = process;
@@ -428,9 +428,9 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
         process.stderr.on('data', function(data) {
            
             if(tipo == "video")
-              console.log('camera video ('+idCamera+'): recebendo video',data);
+              console.log('camera video ('+idCamera+'): recebendo video');
             if(tipo == "audio")
-              console.log('camera audio ('+idCamera+'): recebendo video',data);
+              console.log('camera audio ('+idCamera+'): recebendo video');
         });
 
         process.on('close', function() {
