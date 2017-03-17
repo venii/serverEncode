@@ -42,3 +42,6 @@ http://rtec.westus.cloudapp.azure.com:81/relay?idCamera=2&portaInicial=8083&port
 
 http://rtec.westus.cloudapp.azure.com:81/encode?idCamera=2&secret=1234&portaUsar=8083&rtsp=w3host.no-ip.org:9009/11
 
+
+
+ffmpeg.exe -vn -rtsp_transport tcp -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -vn -ac 2 -ar 22050 -ab 100k -f mp3 icecast://camera:camera@localhost:8000/mp3/camera1.mp3

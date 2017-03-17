@@ -340,7 +340,7 @@ app.get("/encode_audio", function(request, response){ //root dir
               params,
         function(idCamera){
             response.json({ idCamera:idCamera,
-                            httpAudio: "http://"+host+"/mp3/"+idCamera+".mp3"});
+                            httpAudio: "http://"+host+"/camera_"+idCamera+".mp3"});
 
         }, 
         function (err) {
@@ -431,7 +431,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             if(tipo == "video")
               console.log('camera video ('+idCamera+'): recebendo video');
             if(tipo == "audio")
-              console.log('camera audio ('+idCamera+'): recebendo video',data);
+              console.log('camera audio ('+idCamera+'): recebendo video');
         });
 
         process.on('close', function() {
