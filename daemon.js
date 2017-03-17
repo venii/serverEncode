@@ -173,7 +173,7 @@ app.get("/fecha_relay", function(request, response){ //root dir
 
   
 app.get("/encode_video", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&portaUsar=8082&rtsp=w3host.no-ip.org:9009/11&secret=1234
+    //http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&portaUsarRelay=8081&portaUsarWs=8082&rtsp=admin:admin@w3host.no-ip.org:9009/11&secret=1234
     //request.param('rtsp')
     //request.param('idCamera')
     //request.param('portaUsar')
@@ -188,8 +188,13 @@ app.get("/encode_video", function(request, response){ //root dir
       return;
     }
 
-    if(!request.param('portaUsar')){
-      response.json({ error:'falta o parametro portaUsar.'});      
+    if(!request.param('portaUsarRelay')){
+      response.json({ error:'falta o parametro portaUsarRelay.'});      
+      return;
+    }
+
+    if(!request.param('portaUsarWs')){
+      response.json({ error:'falta o parametro portaUsarWs.'});      
       return;
     }
 
@@ -234,7 +239,7 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-muxdelay', '0.001', 
                   '-pix_fmt', 'yuv420p',
                   '-an', 
-                  'http://localhost:'+request.param('portaUsar')+'/'+request.param('secret')
+                  'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   ];
     
     console.log('ffmpeg.exe '+params.join(' '));
@@ -249,7 +254,7 @@ app.get("/encode_video", function(request, response){ //root dir
         function(idCamera){
             response.json({ idCamera:idCamera,
                             portaUsar:request.param('portaUsar'),
-                            wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsar')});
+                            wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs')});
 
         }, 
         function (err) {

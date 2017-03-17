@@ -17,15 +17,22 @@ pega porta
 http://rtec.westus.cloudapp.azure.com:81/ultima_porta
 
 
+
 abre relay
 http://rtec.westus.cloudapp.azure.com:81/abre_relay?idCamera=1&portaInicial=8081&portaFinal=8082&secret=1234
 
-
+##
+CAMERAS USAR NO PARAM RTSP
+app:racional123@w3host.no-ip.org:9010/Streaming/Channels/2
+admin:admin@w3host.no-ip.org:9009/11
+##
 abre encode
 
-http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&secret=1234&portaUsar=8081&rtsp=w3host.no-ip.org:9010/Streaming/Channels/2
+http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&secret=1234&portaUsarRelay=8081&portaUsarWs=8082&rtsp=w3host.no-ip.org:9010/Streaming/Channels/2
+
 ou
-http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&secret=1234&portaUsar=8081&rtsp=w3host.no-ip.org:9009/11
+
+http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=2&secret=1234&portaUsarRelay=8082&portaUsarWs=8083&rtsp=w3host.no-ip.org:9009/11
 
 
 usar endereço para abrir com jsmpeg utilizando ws
