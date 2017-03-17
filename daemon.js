@@ -6,6 +6,7 @@ var express = require("express");
 var app = express();
 app.use(express.static(__dirname + "/public")); //use static files in ROOT/public folder
 
+var audioEncoder = {};
 var encoder   = {};
 var processos = {};
 var portas_abertas = {};
@@ -13,6 +14,7 @@ var portas_abertas = {};
 
 
 app.get("/ultima_porta",function(request,response){
+    //http://rtec.westus.cloudapp.azure.com:81/ultima_porta
     var portas = Object.keys(portas_abertas);
     
     var port_start_in   = 8081;
@@ -37,12 +39,12 @@ app.get("/ultima_porta",function(request,response){
     
 });
 
-app.get("/relay", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81/encode?idCamera=1&portaUsar=8081&rtsp=admin:admin@w3host.no-ip.org:9009/11&secret=1234
-
+app.get("/abre_relay", function(request, response){ //root dir
+    //http://rtec.westus.cloudapp.azure.com:81/abre_relay?idCamera=1&portaInicial=8081&portaFinal=8082&secret=1234
     //request.param('portaInicial')
     //request.param('portaFinal')
     //request.param('idCamera')
+
     if(!request.param('portaInicial')){
       response.json({ error:'falta o parametro portaInicial.'});      
       return;
@@ -114,7 +116,7 @@ app.get("/relay", function(request, response){ //root dir
 });
 
 app.get("/fecha_relay", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81?idCamera=1&secret=1234&portaInicial=8081&portaFinal=8082&rtsp=w3host.no-ip.org
+    //http://rtec.westus.cloudapp.azure.com:81/fecha_relay?idCamera=1
     //request.param('idCamera')
 
     if(!request.param('idCamera')){
@@ -169,33 +171,9 @@ app.get("/fecha_relay", function(request, response){ //root dir
     }
 }); 	
 
-app.get("/fecha_camera", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
-    
-    //request.param('idCamera')
-    if(!request.param('idCamera')){
-      response.json({ error:'falta o parametro idCamera.'});
-      return;
-    }
-    //previni abrir outros relays
-    try{
-        if(encoder[request.param('idCamera')] !== undefined){
-
-            encoder[request.param('idCamera')].kill('SIGHUP');
-            response.json({ ok:'relay foi fechado.'});
-            return;
-        }else{
-            response.json({ error:'camera não foi achada.'});
-        }
-            
-    }catch(ex){
-        console.log(ex);
-        response.json({ error:'camera não foi achada.'});
-    }
-});     
-
-app.get("/encode", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81/encode?idCamera=1&portaUsar=8082&rtsp=w3host.no-ip.org:9009/11&secret=1234
+  
+app.get("/encode_video", function(request, response){ //root dir
+    //http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&portaUsar=8082&rtsp=w3host.no-ip.org:9009/11&secret=1234
     //request.param('rtsp')
     //request.param('idCamera')
     //request.param('portaUsar')
@@ -220,7 +198,7 @@ app.get("/encode", function(request, response){ //root dir
       return;
     }
 
-     try{
+    try{
       if(encoder[request.param('idCamera')]){
         response.json({ error:'esta camera ja esta fazendo streaming.'});    
         return;
@@ -264,7 +242,7 @@ app.get("/encode", function(request, response){ //root dir
     hostSemPorta = request.headers.host.split(":")[0];
 
     runScript(childProcess,
-              "spawn",
+              "video",
               'ffmpeg.exe',
               request.param('idCamera'),
               params,
@@ -280,7 +258,120 @@ app.get("/encode", function(request, response){ //root dir
     
 }); 	
 
+app.get("/fecha_camera", function(request, response){ //root dir
+    //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
+    
+    //request.param('idCamera')
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});
+      return;
+    }
+    //previni abrir outros relays
+    try{
+        if(encoder[request.param('idCamera')] !== undefined){
+            
+            var encodeCam = encoder[request.param('idCamera')]
+            process.kill(encodeCam.pid,'SIGINT');
+            response.json({ ok:'camera foi fechada.'});
+            return;
+        }else{
+            response.json({ error:'camera não foi achada.'});
+        }
+            
+    }catch(ex){
+        console.log(ex);
+        response.json({ error:'camera não foi achada.'});
+    }
+});  
+
+app.get("/encode_audio", function(request, response){ //root dir
+    //http://rtec.westus.cloudapp.azure.com:81/encode_audio?idCamera=1&rtsp=w3host.no-ip.org:9009/11
+    //request.param('idCamera')
+
+    if(!request.param('rtsp')){
+      response.json({ error:'falta o parametro rtsp.'});
+      return;
+    }
+
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});     
+      return;
+    }
+
+    try{
+      if(audioEncoder[request.param('idCamera')]){
+        response.json({ error:'audio ja esta sendo streaming.'});    
+        return;
+      }
+    }catch(ex){
+
+    }
+    var childProcess = require('child_process');
+    var params = ['-vn',
+                  '-rtsp_transport',
+                  'tcp',
+                  '-i',
+                  'rtsp://'+request.param('rtsp'),  
+                  '-vn',                 
+                  '-ac', 
+                  '2',   
+                  '-ar',
+                  '22050',
+                  '-ab', '100k', 
+                  '-f', 'mp3', 
+                  
+                  'icecast://camera:camera@localhost:8000/mp3/'+request.param('idCamera')+".mp3"
+                  ];
+    
+    console.log('ffmpeg.exe '+params.join(' '));
+    
+    host = request.headers.host;
+
+    runScript(childProcess,
+              "audio",
+              'ffmpeg.exe',
+              request.param('idCamera'),
+              params,
+        function(idCamera){
+            response.json({ idCamera:idCamera,
+                            httpAudio: "http://"+host+"/mp3/"+idCamera+".mp3"});
+
+        }, 
+        function (err) {
+            console.log('Error:',err);
+    });
+    
+}); 
+
+app.get("/fecha_audio", function(request, response){ //root dir
+    //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
+    
+    //request.param('idCamera')
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});
+      return;
+    }
+    //previni abrir outros relays
+    try{
+        if(audioEncoder[request.param('idCamera')] !== undefined){
+            
+            var encodeCam = audioEncoder[request.param('idCamera')]
+            process.kill(encodeCam.pid,'SIGINT');
+            response.json({ ok:'audio foi fechada.'});
+            return;
+        }else{
+            response.json({ error:'audio não foi achada.'});
+        }
+            
+    }catch(ex){
+        console.log(ex);
+        response.json({ error:'audio não foi achada.'});
+    }
+});  
+
 app.listen(port);
+
+
 
 function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,callbackError) {
 
@@ -313,23 +404,35 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
         callbackSucess(idCamera);
     }
 
-    if(tipo =="spawn"){
+    if(tipo =="video" || tipo == "audio"){
 	    //var process = childProcess.execFile(scriptPath,params);
         var process = childProcess.spawn(scriptPath,params);
         
-        encoder[idCamera] = process;
-        
+        if(tipo == "video"){
+          encoder[idCamera] = process;
+        }
+
+        if(tipo == "audio"){
+          audioEncoder[idCamera] = process;
+        }
+
         process.stdout.on('data', function(data) {
             //console.log(data);
         });
 
         process.stderr.on('data', function(data) {
-            console.log('camera ('+idCamera+'): recebendo video');
-            console.log(data);
+           
+            if(tipo == "video")
+              console.log('camera video ('+idCamera+'): recebendo video');
+            if(tipo == "audio")
+              console.log('camera audio ('+idCamera+'): recebendo video');
         });
 
         process.on('close', function() {
-            console.log('camera ('+idCamera+'): desligada');
+            if(tipo == "video")
+              console.log('camera video ('+idCamera+'): desligada');
+            if(tipo == "audio")
+              console.log('camera audio ('+idCamera+'): desligada');
         });
 
         callbackSucess(idCamera);
