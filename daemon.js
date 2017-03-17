@@ -331,7 +331,7 @@ app.get("/encode_audio", function(request, response){ //root dir
     
     console.log('ffmpeg.exe '+params.join(' '));
     
-    host = request.headers.host;
+    hostSemPorta = request.headers.host.split(":")[0];
 
     runScript(childProcess,
               "audio",
@@ -340,7 +340,7 @@ app.get("/encode_audio", function(request, response){ //root dir
               params,
         function(idCamera){
             response.json({ idCamera:idCamera,
-                            httpAudio: "http://"+host+"/camera_"+idCamera+".mp3"});
+                            httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"});
 
         }, 
         function (err) {
