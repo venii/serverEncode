@@ -12,7 +12,13 @@ var encoder   = {};
 var processos = {};
 var portas_abertas = {};
 
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "GET, POST","PUT");
+  next();
 
+});
 
 app.get("/ultima_porta",function(request,response){
     //http://rtec.westus.cloudapp.azure.com:81/ultima_porta
