@@ -466,7 +466,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
                 if(processos[idCamera]){
                   var pidRelay = processos[idCamera].pid;
                   console.log('PID RELAY',pidRelay);
-                  process.kill(pidRelay,'SIGINT');
+                  processos[idCamera].exit(0);
                 }
               }catch(ex){
                 console.log("PARANDO RELAY ("+idCamera+")",ex);
