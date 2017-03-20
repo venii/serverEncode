@@ -430,6 +430,12 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             callbackError(err);
         });
         callbackSucess(idCamera);
+
+        process.on('message', function(m, socket){
+          if (m === 'kill'){
+            process.exit();
+          }
+        });
     }
 
     if(tipo =="video" || tipo == "audio"){
@@ -467,8 +473,10 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
                   var pidRelay = processos[idCamera].pid;
                   console.log('PID RELAY',pidRelay);
                   console.log(processos[idCamera]);
-                  processos[idCamera].exit(0);
+                  
+                  processos[idCamera].send({ 'message','kill'});
                 }
+
               }catch(ex){
                 console.log("PARANDO RELAY ("+idCamera+")",ex);
               }
