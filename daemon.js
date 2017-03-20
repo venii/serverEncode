@@ -86,7 +86,7 @@ app.get("/abre_relay", function(request, response){ //root dir
         }
             
     }catch(ex){
-
+      return;
     }
 
     try{
@@ -99,7 +99,7 @@ app.get("/abre_relay", function(request, response){ //root dir
             return;
         }
     }catch(ex){
-
+      return;
     }
     
 
@@ -227,7 +227,7 @@ app.get("/encode_video", function(request, response){ //root dir
         return;
       }
     }catch(ex){
-
+      return;
     }
 
     try{
@@ -236,7 +236,7 @@ app.get("/encode_video", function(request, response){ //root dir
         return;
       }
     }catch(ex){
-
+      return;
     }
 
     var childProcess = require('child_process');
@@ -323,6 +323,7 @@ app.get("/fecha_camera", function(request, response){ //root dir
     }catch(ex){
         console.log(ex);
         response.json({ error:'camera não foi achada.'});
+        return;
     }
 });  
 
@@ -346,7 +347,7 @@ app.get("/encode_audio", function(request, response){ //root dir
         return;
       }
     }catch(ex){
-
+      return;
     }
     var childProcess = require('child_process');
     var params = ['-vn',
@@ -404,11 +405,13 @@ app.get("/fecha_audio", function(request, response){ //root dir
             return;
         }else{
             response.json({ error:'audio não foi achada.'});
+            return;
         }
             
     }catch(ex){
         console.log(ex);
         response.json({ error:'audio não foi achada.'});
+        return;
     }
 });  
 
