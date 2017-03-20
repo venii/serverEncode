@@ -76,7 +76,12 @@ app.get("/abre_relay", function(request, response){ //root dir
     //previni abrir outros relays
     try{
         if(processos[request.param('idCamera')] !== undefined){
-            response.json({ error:'relay já aberto para esta camera.'});
+            hostSemPorta = request.headers.host.split(":")[0];
+
+            response.json({ error:'relay já aberto para esta camera.',
+                            wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
+                            httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
+                          });
             return;
         }
             
