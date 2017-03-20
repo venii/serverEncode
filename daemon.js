@@ -116,7 +116,7 @@ app.get("/abre_relay", function(request, response){ //root dir
           response.json({ idCamera:idCamera, 
                           portaUsarRelay: request.param('portaUsarRelay'),
                           portaUsarWs: request.param('portaUsarWs')});
-
+ 
         }, 
         function (err) {
        	 console.log('Error:',err);
