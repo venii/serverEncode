@@ -435,7 +435,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
           if (m === 'kill'){
             console.log("MATANDO RELAY FORK");
-            process.exit();
+            process.exit(0);
           }
         });
 
