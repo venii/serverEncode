@@ -74,34 +74,27 @@ app.get("/abre_relay", function(request, response){ //root dir
       return;
     }
     //previni abrir outros relays
-    try{
-        if(processos[request.param('idCamera')] !== undefined){
-            hostSemPorta = request.headers.host.split(":")[0];
-
-            response.json({ error:'relay já aberto para esta camera.',
-                            wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
-                            httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
-                          });
-            return;
-        }
-            
-    }catch(ex){
-      return;
-    }
-
-    try{
-        if(portas_abertas[request.param('portaUsarRelay')] !== undefined){
-            response.json({ error:'porta inicial ja usada.'});
-            return;
-        }
-        if(portas_abertas[request.param('portaUsarWs')] !== undefined){
-            response.json({ error:'porta final ja usada.'});
-            return;
-        }
-    }catch(ex){
-      return;
-    }
     
+    if(!processos[request.param('idCamera')]){
+        hostSemPorta = request.headers.host.split(":")[0];
+
+        response.json({ error:'relay já aberto para esta camera.',
+                        wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
+                        httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
+                      });
+        return;
+    }
+            
+   
+    if(!portas_abertas[request.param('portaUsarRelay')]){
+        response.json({ error:'porta inicial ja usada.'});
+        return;
+    }
+
+    if(!portas_abertas[request.param('portaUsarWs')]){
+        response.json({ error:'porta final ja usada.'});
+        return;
+    }
 
     var childProcess = require('child_process')
     var params = [request.param('secret'),
