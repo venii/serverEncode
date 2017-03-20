@@ -19,7 +19,7 @@ http://rtec.westus.cloudapp.azure.com:81/ultima_porta
 
 
 abre relay
-http://rtec.westus.cloudapp.azure.com:81/abre_relay?idCamera=1&portaInicial=8081&portaFinal=8082&secret=1234
+http://rtec.westus.cloudapp.azure.com:81/abre_relay?idCamera=1&portaUsarRelay=8081&portaUsarWs=8082&secret=1234
 
 ##
 CAMERAS USAR NO PARAM RTSP
@@ -33,15 +33,6 @@ http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&secret=1234&por
 ou
 
 http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=2&secret=1234&portaUsarRelay=8082&portaUsarWs=8083&rtsp=w3host.no-ip.org:9009/11
-
-
-usar endereço para abrir com jsmpeg utilizando ws
-
-
-http://rtec.westus.cloudapp.azure.com:81/relay?idCamera=2&portaInicial=8083&portaFinal=8084&secret=1234
-
-http://rtec.westus.cloudapp.azure.com:81/encode?idCamera=2&secret=1234&portaUsar=8083&rtsp=w3host.no-ip.org:9009/11
-
 
 
 ffmpeg.exe -vn -rtsp_transport tcp -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -vn -ac 2 -ar 22050 -ab 100k -f mp3 icecast://camera:camera@localhost:8000/mp3/camera1.mp3
