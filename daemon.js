@@ -434,8 +434,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     }
 
     if(tipo =="video" || tipo == "audio"){
-	      //var process = childProcess.execFile(scriptPath,params);
-        var process = childProcess.spawn(scriptPath,params);
+	      var process = childProcess.execFile(scriptPath,params);
+        //var process = childProcess.spawn(scriptPath,params);
         
         if(tipo == "video"){
           encoder[idCamera] = process;
@@ -472,7 +472,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               
               //libera portas
               var portasIndex = Object.keys(portas_abertas);
-              
+        
               for(iPortasDel in portasIndex){
                 var portaI = portasIndex[iPortasDel];
                 
@@ -483,10 +483,12 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               console.log('camera video ('+idCamera+'): desligada');
               
             }
+
             if(tipo == "audio"){
+
               delete audioEncoder[idCamera];
-              
               console.log('camera audio ('+idCamera+'): desligada');
+            
             }
            
         });
