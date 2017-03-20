@@ -433,7 +433,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
         process.on('message', function(m, socket){
           console.log('MESSAGE FORK RELAY',m);
-          
+
           if (m == 'kill'){
             console.log("MATANDO RELAY FORK");
             process.exit();
@@ -473,10 +473,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               //SIGINT processo
               try{
                 if(processos[idCamera]){
-                  var pidRelay = processos[idCamera].pid;
-                  //console.log('PID RELAY',pidRelay);
-                  //console.log(processos[idCamera]);
                   processos[idCamera].send({'message':'kill'});
+                  console.log("RELAY "+idCamera+" SENDO DESLIGADO");
                 }
 
               }catch(ex){
