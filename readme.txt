@@ -36,3 +36,9 @@ http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=2&secret=1234&por
 
 
 ffmpeg.exe -vn -rtsp_transport tcp -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -vn -ac 2 -ar 22050 -ab 100k -f mp3 icecast://camera:camera@localhost:8000/mp3/camera1.mp3
+
+
+
+TESTAR input 1 e 2 do encoder 
+
+ffmpeg.exe -an -rtsp_transport tcp -i rtsp://w3host.no-ip.org:9010/Streaming/Channels/2 -f mpegts -an -codec:v mpeg1video  -s 340x340 -r 25 -b:v 150k -bf 0 -muxdelay 0.001 -pix_fmt yuv420p -an http://localhost:8081/1234 -f mp3 -ab 100k -vn -ac 2 -ar 22050 icecast://camera:camera@localhost:8000/camera_2.mp3
