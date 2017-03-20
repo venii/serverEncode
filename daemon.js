@@ -40,18 +40,18 @@ app.get("/ultima_porta",function(request,response){
 });
 
 app.get("/abre_relay", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81/abre_relay?idCamera=1&portaInicial=8081&portaFinal=8082&secret=1234
+    //http://rtec.westus.cloudapp.azure.com:81/abre_relay?idCamera=1&portaUsarRelay=8081&portaUsarWs=8082&secret=1234
     //request.param('portaInicial')
     //request.param('portaFinal')
     //request.param('idCamera')
 
-    if(!request.param('portaInicial')){
-      response.json({ error:'falta o parametro portaInicial.'});      
+    if(!request.param('portaUsarRelay')){
+      response.json({ error:'falta o parametro portaUsarRelay.'});      
       return;
     }
 
-    if(!request.param('portaFinal')){
-      response.json({ error:'falta o parametro portaFinal.'});    
+    if(!request.param('portaUsarWs')){
+      response.json({ error:'falta o parametro portaUsarWs.'});    
       return;
     }
 
@@ -91,8 +91,8 @@ app.get("/abre_relay", function(request, response){ //root dir
 
     var childProcess = require('child_process')
     var params = [request.param('secret'),
-                  request.param('portaInicial'),
-                  request.param('portaFinal')];
+                  request.param('portaUsarRelay'),
+                  request.param('portaUsarWs')];
 
     runScript(childProcess,"fork",
               './jsmpeg-master/websocket-relay.js',
@@ -105,7 +105,8 @@ app.get("/abre_relay", function(request, response){ //root dir
     	    portas_abertas[request.param('portaFinal')]   = idCamera;
 
           response.json({ idCamera:idCamera, 
-                          portaUsar:request.param('portaInicial')});
+                          portaUsarRelay: request.param('portaUsarRelay'),
+                          portaUsarWs: request.param('portaUsarWs')});
 
         }, 
         function (err) {
