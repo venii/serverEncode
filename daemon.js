@@ -174,6 +174,9 @@ app.get("/fecha_relay", function(request, response){ //root dir
   
 app.get("/encode_video", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&portaUsarRelay=8081&portaUsarWs=8082&rtsp=admin:admin@w3host.no-ip.org:9009/11&secret=1234
+    // audio incluso
+    //http://rtec.westus.cloudapp.azure.com:81/encode_video?audio=1&idCamera=1&portaUsarRelay=8081&portaUsarWs=8082&rtsp=admin:admin@w3host.no-ip.org:9009/11&secret=1234
+
     //request.param('rtsp')
     //request.param('idCamera')
     //request.param('portaUsar')
@@ -241,7 +244,25 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-an', 
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   ];
-    
+
+    if(request.param('audio')){
+      var params = params.concat([ '-vn',
+                                  '-rtsp_transport',
+                                  'tcp',
+                                  '-i',
+                                  'rtsp://'+request.param('rtsp'),  
+                                  '-vn',                 
+                                  '-ac', 
+                                  '2',   
+                                  '-ar',
+                                  '22050',
+                                  '-ab', '100k', 
+                                  '-f', 'mp3', 
+                                  
+                                  'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
+                                  ]);
+     
+    } 
     console.log('ffmpeg.exe '+params.join(' '));
     
     hostSemPorta = request.headers.host.split(":")[0];
