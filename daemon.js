@@ -85,11 +85,11 @@ app.get("/abre_relay", function(request, response){ //root dir
     }
 
     try{
-        if(portas_abertas[request.param('portaInicial')] !== undefined){
+        if(portas_abertas[request.param('portaUsarRelay')] !== undefined){
             response.json({ error:'porta inicial ja usada.'});
             return;
         }
-        if(portas_abertas[request.param('portaFinal')] !== undefined){
+        if(portas_abertas[request.param('portaUsarWs')] !== undefined){
             response.json({ error:'porta final ja usada.'});
             return;
         }
@@ -110,8 +110,8 @@ app.get("/abre_relay", function(request, response){ //root dir
 
         function(idCamera){
 
-          portas_abertas[request.param('portaInicial')] = idCamera;
-    	    portas_abertas[request.param('portaFinal')]   = idCamera;
+          portas_abertas[request.param('portaUsarRelay')] = idCamera;
+    	    portas_abertas[request.param('portaUsarWs')]   = idCamera;
 
           response.json({ idCamera:idCamera, 
                           portaUsarRelay: request.param('portaUsarRelay'),
