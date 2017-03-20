@@ -273,7 +273,9 @@ app.get("/encode_video", function(request, response){ //root dir
         function(idCamera){
             response.json({ idCamera:idCamera,
                             portaUsar:request.param('portaUsar'),
-                            wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs')});
+                            wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
+                            httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
+                          });
 
         }, 
         function (err) {
