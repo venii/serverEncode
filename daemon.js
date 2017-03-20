@@ -29,8 +29,8 @@ app.get("/ultima_porta",function(request,response){
     var distancia_portas= 2;
 
     if(portas.length == 0){
-        response.json({ portaInicial:port_start_in,
-                        portaFinal:port_start_out});
+        response.json({ portaUsarRelay:port_start_in,
+                        portaUsarWs:port_start_out});
         return;
     }else{
         var iPF = portas.splice(-1,1)[0];
@@ -39,8 +39,8 @@ app.get("/ultima_porta",function(request,response){
         var novaPortaI = parseInt(iPI)+distancia_portas;
         var novaPortaF = parseInt(iPF)+distancia_portas;
         
-        response.json({ portaInicial:novaPortaI,
-                        portaFinal :novaPortaF});
+        response.json({ portaUsarRelay:novaPortaI,
+                        portaUsarWs :novaPortaF});
         return;
     }
     
