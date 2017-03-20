@@ -75,13 +75,16 @@ app.get("/abre_relay", function(request, response){ //root dir
     //previni abrir outros relays
     
     if(processos[request.param('idCamera')]){
+        var portasIndices = Object.keys(portas_abertas);
         var portasUsadas = new Array;
-        for(i in portas_abertas){
-          var porta = portas_abertas[i];
+
+        for(i in portasIndices){
+          var porta = portas_abertas[portasIndices[i]];
           if(porta == request.param('idCamera')){
             portasUsadas.push(porta);
           }
         }
+        
         portalReal = portasUsadas[1];
         response.json({ error:'relay já aberto para esta camera.',
                         wsVideo: "ws://"+hostSemPorta+":"+portalReal,
