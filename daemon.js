@@ -467,7 +467,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               try{
                 if(processos[idCamera]){
                   processos[idCamera].disconnect();
-                  process.kill(processos[idCamera].pid,'SIGINT');
+                  process.kill(processos[idCamera].pid,'SIGKILL');
                 }
 
               }catch(ex){
