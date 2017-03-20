@@ -333,19 +333,11 @@ app.get("/encode_audio", function(request, response){ //root dir
     }
     
     var childProcess = require('child_process');
-    var params = ['-vn',
-                  '-rtsp_transport',
-                  'tcp',
-                  '-i',
-                  'rtsp://'+request.param('rtsp'),  
-                  '-vn',                 
-                  '-ac', 
-                  '2',   
-                  '-ar',
-                  '22050',
-                  '-ab', '100k', 
+    var params = [
                   '-f', 'mp3', 
-                  
+                  '-ab', '100k', 
+                  '-vn' ,'-ac', 
+                  '2','-ar','22050',
                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                   ];
     
