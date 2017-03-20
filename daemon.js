@@ -452,9 +452,9 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
         process.stderr.on('data', function(data) {
            
             if(tipo == "video")
-              console.log('camera video ('+idCamera+'): recebendo video');
+              console.log('camera video ('+idCamera+'): recebendo video',data);
             if(tipo == "audio")
-              console.log('camera audio ('+idCamera+'): recebendo audio');
+              console.log('camera audio ('+idCamera+'): recebendo audio',data);
         });
 
         process.on('close', function() {
