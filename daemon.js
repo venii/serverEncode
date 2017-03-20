@@ -47,7 +47,6 @@ app.get("/ultima_porta",function(request,response){
 });
 
 app.get("/abre_relay", function(request, response){ //root dir
-    var distancia_portas= 2;
     //http://rtec.westus.cloudapp.azure.com:81/abre_relay?idCamera=1&portaUsarRelay=8081&portaUsarWs=8082&secret=1234
     //request.param('portaInicial')
     //request.param('portaFinal')
@@ -464,16 +463,12 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               delete encoder[idCamera];
               
               //SIGINT processo
-              try{
-                if(processos[idCamera]){
-                  processos[idCamera].kill('SIGTERM');
-                }
-
-              }catch(ex){
-                console.log("PARANDO RELAY ("+idCamera+")",ex);
+              
+              if(processos[idCamera]){
+                processos[idCamera].kill('SIGTERM');
+                delete processos[idCamera];
               }
               //mata relay
-              delete processos[idCamera];
               
               //libera portas
               var portasIndex = Object.keys(portas_abertas);
