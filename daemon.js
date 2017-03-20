@@ -36,8 +36,6 @@ app.get("/ultima_porta",function(request,response){
         var iPF = portas.splice(-1,1)[0];
         var iPI = portas.splice(-1,1)[0];
         
-        console.log(iPI,iPF,portas);
-
         var novaPortaI = parseInt(iPI)+distancia_portas;
         var novaPortaF = parseInt(iPF)+distancia_portas;
         
@@ -130,8 +128,7 @@ app.get("/fecha_relay", function(request, response){ //root dir
       return;
     }
 
-    try{
-        if(processos[request.param('idCamera')]){
+    if(processos[request.param('idCamera')]){
             var childProcess = require('child_process');
 
             if(encoder[request.param('idCamera')]){
@@ -143,13 +140,12 @@ app.get("/fecha_relay", function(request, response){ //root dir
             }
 
             var processo = processos[request.param('idCamera')];
-            try{
+            if(processo){
               process.kill(processo.pid,'SIGINT');
               
               console.log('PID RELAY KILL',processo.pid);
               delete processos[request.param('idCamera')];
               
-
               var portasIndex = Object.keys(portas_abertas);
               
 
@@ -160,21 +156,15 @@ app.get("/fecha_relay", function(request, response){ //root dir
                   delete portas_abertas[portaI];
                 }
               }
+              
+              response.json({ ok:'relay foi fechado.'});
+              return;
 
-            }catch(ex){
-              console.log(ex);
             }
-
-            response.json({ ok:'relay foi fechado.'});
-            return;
-        }else{
-            response.json({ error:'camera não foi achada.'});
-        }
-            
-    }catch(ex){
-        console.log(ex);
+      }else{
         response.json({ error:'camera não foi achada.'});
-    }
+      }
+            
 }); 	
 
   
@@ -212,24 +202,17 @@ app.get("/encode_video", function(request, response){ //root dir
       return;
     }
 
-    try{
-      if(encoder[request.param('idCamera')]){
-        response.json({ error:'esta camera ja esta fazendo streaming.'});    
-        return;
-      }
-    }catch(ex){
+    
+    if(encoder[request.param('idCamera')]){
+      response.json({ error:'esta camera ja esta fazendo streaming.'});    
       return;
     }
-
-    try{
-      if(!processos[request.param('idCamera')]){
-        response.json({ error:'voce deve abrir o relay desta camera antes.'});    
-        return;
-      }
-    }catch(ex){
+    
+    if(!processos[request.param('idCamera')]){
+      response.json({ error:'voce deve abrir o relay desta camera antes.'});    
       return;
     }
-
+    
     var childProcess = require('child_process');
     var params = ['-an',
                   '-rtsp_transport',
@@ -269,6 +252,7 @@ app.get("/encode_video", function(request, response){ //root dir
                                   ]);
      
     } 
+    
     console.log('ffmpeg.exe '+params.join(' '));
     
     hostSemPorta = request.headers.host.split(":")[0];
@@ -299,23 +283,21 @@ app.get("/fecha_camera", function(request, response){ //root dir
       return;
     }
     //previni abrir outros relays
-    try{
-        if(encoder[request.param('idCamera')] !== undefined){
+    
+    if(encoder[request.param('idCamera')]){
             
-            var encodeCam = encoder[request.param('idCamera')]
-            process.kill(encodeCam.pid,'SIGINT');
-            delete encoder[request.param('idCamera')];
-            response.json({ ok:'camera foi fechada.'});
-            return;
-        }else{
-            response.json({ error:'camera não foi achada.'});
-        }
-            
-    }catch(ex){
-        console.log(ex);
-        response.json({ error:'camera não foi achada.'});
-        return;
+      var encodeCam = encoder[request.param('idCamera')]
+      process.kill(encodeCam.pid,'SIGINT');
+        
+      delete encoder[request.param('idCamera')];
+      
+      response.json({ ok:'camera foi fechada.'});
+      return;
+    }else{
+      response.json({ error:'camera não foi achada.'});
     }
+            
+    
 });  
 
 app.get("/encode_audio", function(request, response){ //root dir
@@ -332,14 +314,12 @@ app.get("/encode_audio", function(request, response){ //root dir
       return;
     }
 
-    try{
-      if(audioEncoder[request.param('idCamera')]){
-        response.json({ error:'audio ja esta sendo streaming.'});    
-        return;
-      }
-    }catch(ex){
+    
+    if(audioEncoder[request.param('idCamera')]){
+      response.json({ error:'audio ja esta sendo streaming.'});    
       return;
     }
+    
     var childProcess = require('child_process');
     var params = ['-vn',
                   '-rtsp_transport',
@@ -386,24 +366,22 @@ app.get("/fecha_audio", function(request, response){ //root dir
       return;
     }
     //previni abrir outros relays
-    try{
-        if(audioEncoder[request.param('idCamera')] !== undefined){
-            
-            var encodeCam = audioEncoder[request.param('idCamera')]
-            process.kill(encodeCam.pid,'SIGINT');
-            response.json({ ok:'audio foi fechada.'});
-            delete audioEncoder[request.param('idCamera')];
-            return;
-        }else{
-            response.json({ error:'audio não foi achada.'});
-            return;
-        }
-            
-    }catch(ex){
-        console.log(ex);
+    
+    if(audioEncoder[request.param('idCamera')]){
+
+        var encodeCam = audioEncoder[request.param('idCamera')]
+        process.kill(encodeCam.pid,'SIGINT');
+        
+        response.json({ ok:'audio foi fechada.'});
+        
+        delete audioEncoder[request.param('idCamera')];
+        return;
+    }else{
         response.json({ error:'audio não foi achada.'});
         return;
     }
+            
+   
 });  
 
 app.listen(port);
