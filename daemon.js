@@ -80,7 +80,7 @@ app.get("/abre_relay", function(request, response){ //root dir
 
         response.json({ error:'relay já aberto para esta camera.',
                         wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
-                        httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
+                        httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
                       });
         return;
     }
