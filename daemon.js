@@ -475,7 +475,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
                   console.log('PID RELAY',pidRelay);
                   console.log(processos[idCamera]);
 
-                  processos[idCamera].send({ 'message','kill'});
+                  processos[idCamera].send({'message':'kill'});
                 }
 
               }catch(ex){
