@@ -84,7 +84,7 @@ app.get("/abre_relay", function(request, response){ //root dir
             portasUsadas.push(portasIndices[i]);
           }
         }
-        
+
         portalReal = portasUsadas[1];
         response.json({ error:'relay já aberto para esta camera.',
                         wsVideo: "ws://"+hostSemPorta+":"+portalReal,
@@ -458,9 +458,34 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
         process.on('close', function() {
             if(tipo == "video"){
+              //mata camera
+              delete encoder[idCamera];
+              
+              //SIGINT processo
+              try{
+                process.kill(processos[idCamera].pid,'SIGINT');
+              }catch(ex){
+
+              }
+              //mata relay
+              delete processos[idCamera];
+              
+              //libera portas
+              var portasIndex = Object.keys(portas_abertas);
+              
+              for(iPortasDel in portasIndex){
+                var portaI = portasIndex[iPortasDel];
+                
+                if(portas_abertas[portaI] == idCamera){
+                  delete portas_abertas[portaI];
+                }
+              }
               console.log('camera video ('+idCamera+'): desligada');
+              
             }
             if(tipo == "audio"){
+              delete audioEncoder[idCamera];
+              
               console.log('camera audio ('+idCamera+'): desligada');
             }
            
