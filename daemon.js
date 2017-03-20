@@ -75,7 +75,7 @@ app.get("/abre_relay", function(request, response){ //root dir
     }
     //previni abrir outros relays
     
-    if(!processos[request.param('idCamera')]){
+    if(processos[request.param('idCamera')]){
         hostSemPorta = request.headers.host.split(":")[0];
         response.json({ error:'relay já aberto para esta camera.',
                         wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
