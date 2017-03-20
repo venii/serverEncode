@@ -35,6 +35,8 @@ app.get("/ultima_porta",function(request,response){
     }else{
         var iPF = portas.splice(-1,1)[0];
         var iPI = portas.splice(-1,1)[0];
+        
+        console.log(iPI,iPF,portas);
 
         var novaPortaI = parseInt(iPI)+distancia_portas;
         var novaPortaF = parseInt(iPF)+distancia_portas;
