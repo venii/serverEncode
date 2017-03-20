@@ -473,7 +473,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               //SIGINT processo
               try{
                 if(processos[idCamera]){
-                  processos[idCamera].send({'message':'kill'});
+                  processos[idCamera].send({message:'kill'});
                   console.log("RELAY "+idCamera+" SENDO DESLIGADO");
                 }
 
