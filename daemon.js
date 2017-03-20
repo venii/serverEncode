@@ -431,10 +431,10 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
         });
         callbackSucess(idCamera);
 
-        process.on('message', function(m, socket){
+        process.on('message', function(m){
           console.log('MESSAGE FORK RELAY',m);
 
-          if (m == 'kill'){
+          if (m === 'kill'){
             console.log("MATANDO RELAY FORK");
             process.exit();
           }
