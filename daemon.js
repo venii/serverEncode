@@ -429,7 +429,6 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             err = "Fechando processo.";
             callbackError(err);
         });
-        callbackSucess(idCamera);
 
         process.on('message', function(m){
           console.log('MESSAGE FORK RELAY',m);
@@ -439,6 +438,9 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             process.exit();
           }
         });
+
+        callbackSucess(idCamera);
+
     }
 
     if(tipo =="video" || tipo == "audio"){
