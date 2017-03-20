@@ -466,7 +466,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               //SIGINT processo
               try{
                 if(processos[idCamera]){
-                  console.log(processos[idCamera]);
+                  processos[idCamera].kill('SIGTERM');
                 }
 
               }catch(ex){
