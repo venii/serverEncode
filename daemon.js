@@ -84,13 +84,12 @@ app.get("/abre_relay", function(request, response){ //root dir
         return;
     }
             
-   
-    if(!portas_abertas[request.param('portaUsarRelay')]){
+    if(portas_abertas[request.param('portaUsarRelay')]){
         response.json({ error:'porta inicial ja usada.'});
         return;
     }
 
-    if(!portas_abertas[request.param('portaUsarWs')]){
+    if(portas_abertas[request.param('portaUsarWs')]){
         response.json({ error:'porta final ja usada.'});
         return;
     }
