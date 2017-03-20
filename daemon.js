@@ -463,9 +463,11 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               
               //SIGINT processo
               try{
-                process.kill(processos[idCamera].pid,'SIGINT');
+                if(processos[idCamera]){
+                  process.kill(processos[idCamera].pid,'SIGINT');
+                }
               }catch(ex){
-
+                console.log("PARANDO RELAY ("+idCamera+")",ex);
               }
               //mata relay
               delete processos[idCamera];
