@@ -47,6 +47,7 @@ app.get("/ultima_porta",function(request,response){
 });
 
 app.get("/abre_relay", function(request, response){ //root dir
+    var distancia_portas= 2;
     //http://rtec.westus.cloudapp.azure.com:81/abre_relay?idCamera=1&portaUsarRelay=8081&portaUsarWs=8082&secret=1234
     //request.param('portaInicial')
     //request.param('portaFinal')
@@ -74,9 +75,10 @@ app.get("/abre_relay", function(request, response){ //root dir
     //previni abrir outros relays
     
     if(processos[request.param('idCamera')]){
+        var portalReal = (parseInt(request.param('portaUsarWs'))-distancia_portas);
         hostSemPorta = request.headers.host.split(":")[0];
         response.json({ error:'relay já aberto para esta camera.',
-                        wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
+                        wsVideo: "ws://"+hostSemPorta+":"+portalReal,
                         httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
                       });
         return;
@@ -156,7 +158,7 @@ app.get("/fecha_relay", function(request, response){ //root dir
                   delete portas_abertas[portaI];
                 }
               }
-              
+
               response.json({ ok:'relay foi fechado.'});
               return;
 
