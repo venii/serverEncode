@@ -245,20 +245,11 @@ app.get("/encode_video", function(request, response){ //root dir
                   ];
 
     if(request.param('audio')){
-      var params = params.concat([ '-vn',
-                                  '-rtsp_transport',
-                                  'tcp',
-                                  '-i',
-                                  'rtsp://'+request.param('rtsp'),  
-                                  '-vn',                 
-                                  '-ac', 
-                                  '2',   
-                                  '-ar',
-                                  '22050',
-                                  '-ab', '100k', 
-                                  '-f', 'mp3', 
-                                  
-                                  'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
+      var params = params.concat(['-f', 'mp3', 
+                              '-ab', '100k', 
+                              '-vn' ,'-ac', 
+                              '2','-ar','22050',
+                              'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
      
     } 
@@ -333,11 +324,19 @@ app.get("/encode_audio", function(request, response){ //root dir
     }
     
     var childProcess = require('child_process');
-    var params = [
-                  '-f', 'mp3', 
+    var params = ['-vn',
+                  '-rtsp_transport',
+                  'tcp',
+                  '-i',
+                  'rtsp://'+request.param('rtsp'),  
+                  '-vn',                 
+                  '-ac', 
+                  '2',   
+                  '-ar',
+                  '22050',
                   '-ab', '100k', 
-                  '-vn' ,'-ac', 
-                  '2','-ar','22050',
+                  '-f', 'mp3', 
+                  
                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                   ];
     
