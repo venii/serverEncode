@@ -5,6 +5,7 @@ var express = require("express");
 
 var app = express();
 app.use(express.static(__dirname + "/public")); //use static files in ROOT/public folder
+app.options('*', cors());
 
 var audioEncoder = {};
 var encoder   = {};
