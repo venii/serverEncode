@@ -2,7 +2,7 @@
 var fs = require("fs");
 var port = 81;
 var express = require("express");
-
+var cors = require('cors');
 var app = express();
 app.use(express.static(__dirname + "/public")); //use static files in ROOT/public folder
 app.options('*', cors());
