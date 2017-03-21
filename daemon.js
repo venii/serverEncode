@@ -240,13 +240,12 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-codec:v','mpeg1video', 
                   '-an',
                   '-f','mpegts',
-                  lhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
+                  'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   ];
 
     if(request.param('audio')){
-      var params = params.concat([   
-                                  '-ac',
-                                  '-vn',  
+      var params = params.concat([ '-vn',   
+                                  '-ac', 
                                   '2',   
                                   '-ar',
                                   '22050',
