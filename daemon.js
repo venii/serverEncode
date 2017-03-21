@@ -224,14 +224,16 @@ app.get("/encode_video", function(request, response){ //root dir
     }
     
     var childProcess = require('child_process');
-    var params = ['-an',
+    var params = [
                   '-rtsp_transport',
                   'tcp',
                   '-i',
                   'rtsp://'+request.param('rtsp'),  
-                  '-an',                 
+                  
                   '-codec:v', 
                   'mpeg1video',   
+                  '-an',                 
+                  
                   '-f',
                   'mpegts',
                   '-s', '340x340', 
@@ -245,7 +247,10 @@ app.get("/encode_video", function(request, response){ //root dir
                   ];
 
     if(request.param('audio')){
-      var params = params.concat(['-f', 'mp3', 
+      var params = params.concat([
+                              '-codec:a', 
+                              'mp3',   
+                              '-f', 'mp3', 
                               '-ab', '100k', 
                               '-vn' ,'-ac', 
                               '2','-ar','22050',
