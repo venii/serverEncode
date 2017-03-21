@@ -235,6 +235,10 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-codec:v', 
                   'mpeg1video',   
                   
+                  
+
+                  '-f',
+                  'mpegts',
                   '-s', '340x340', 
                   '-r', '25', 
                   '-b:v', '150k', 
@@ -242,9 +246,6 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-muxdelay', '0.001', 
                   '-pix_fmt', 'yuv420p',
                   '-an', 
-
-                  '-f',
-                  'mpegts',
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   ];
 
