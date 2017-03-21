@@ -225,45 +225,39 @@ app.get("/encode_video", function(request, response){ //root dir
     }
     
     var childProcess = require('child_process');
-    var params = [
+    var params = ['-an',
                   '-rtsp_transport',
                   'tcp',
                   '-i',
                   'rtsp://'+request.param('rtsp'),  
-                  
+                  '-an',                 
                   '-codec:v', 
                   'mpeg1video',   
-                  
-                  '-an',                 
+                  '-f',
+                  'mpegts',
                   '-s', '340x340', 
                   '-r', '25', 
                   '-b:v', '150k', 
                   '-bf', '0', 
                   '-muxdelay', '0.001', 
                   '-pix_fmt', 'yuv420p',
-                  
-                  '-f',
-                  'mpegts',
+                  '-an', 
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
-                  
                   ];
 
     if(request.param('audio')){
-      var params = params.concat([
-                              '-codec:a', 
-                              'libmp3lame',
-
-                              '-ab', '100k', 
-                              '-ac','2',
-                              '-ar','22050', 
-                              '-vn' ,  
-                              '-f', 'mp3', 
-                              '-content_type','audio/mpeg',
-                              'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
+      var params = params.concat([ '-vn',
+                                       
+                                  '-ac', 
+                                  '2',   
+                                  '-ar',
+                                  '22050',
+                                  '-ab', '100k', 
+                                  '-f', 'mp3', 
+                                  
+                                  'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
-     
-    } 
-    
+    }
     console.log('ffmpeg.exe '+params.join(' '));
     
     hostSemPorta = request.headers.host.split(":")[0];
