@@ -244,8 +244,8 @@ app.get("/encode_video", function(request, response){ //root dir
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   ];
 
-    /*if(request.param('audio')){
-      var params = params.concat([ '-vn',   
+    if(request.param('audio')){
+      var params = params.concat(['-vn',   
                                   '-ac', 
                                   '2',   
                                   '-ar',
@@ -254,7 +254,7 @@ app.get("/encode_video", function(request, response){ //root dir
                                   '-f', 'mp3', 
                                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
-    }*/
+    }
     console.log('ffmpeg.exe '+params.join(' '));
     
     hostSemPorta = request.headers.host.split(":")[0];
