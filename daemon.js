@@ -258,7 +258,7 @@ app.get("/encode_video", function(request, response){ //root dir
                               '-ar','22050', 
                               '-vn' ,  
                               '-f', 'mp3', 
-                              
+                              '-content_type','audio/mpeg',
                               'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
      
