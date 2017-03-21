@@ -421,7 +421,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             invoked = true;
 
             //var err = code === 0 ? null : new Error('exit code ' + code);
-            err = "Fechando da camera ("+idCamera+").";
+            err = "camera relay fechado ("+idCamera+").";
+            console.log(code,err);
             console.log(processos[idCamera]);
 
             callbackError(err);
