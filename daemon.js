@@ -275,9 +275,8 @@ app.get("/encode_video", function(request, response){ //root dir
               '2',   
               '-ar',
               '22050',
-              '-ab', '100k', 
+              '-ab', '80k', 
               '-f', 'mp3', 
-              
               'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
               ];
             runScript(childProcess,
@@ -454,9 +453,9 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     }
 
     if(tipo =="video" || tipo == "audio"){
-	      var process = childProcess.execFile(scriptPath,params);
-        //var process = childProcess.spawn(scriptPath,params);
-        
+	      //var process = childProcess.execFile(scriptPath,params);
+        var process = childProcess.spawn(scriptPath,params);
+      
         if(tipo == "video"){
           encoder[idCamera] = process;
         }
