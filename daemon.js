@@ -230,28 +230,23 @@ app.get("/encode_video", function(request, response){ //root dir
                   'tcp',
                   '-i',
                   'rtsp://'+request.param('rtsp'),  
-        
-                  '-an',                 
-                  '-codec:v', 
-                  'mpeg1video',   
                   
-                  
-
-                  '-f',
-                  'mpegts',
                   '-s', '340x340', 
                   '-r', '25', 
                   '-b:v', '150k', 
                   '-bf', '0', 
                   '-muxdelay', '0.001', 
-                  '-pix_fmt', 'yuv420p',
-                  '-an', 
-                  'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
+                  '-pix_fmt', 'yuv420p',                
+                  '-codec:v','mpeg1video', 
+                  '-an',
+                  '-f','mpegts',
+                  lhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   ];
 
     if(request.param('audio')){
-      var params = params.concat([ '-vn',   
-                                  '-ac', 
+      var params = params.concat([   
+                                  '-ac',
+                                  '-vn',  
                                   '2',   
                                   '-ar',
                                   '22050',
