@@ -233,28 +233,32 @@ app.get("/encode_video", function(request, response){ //root dir
                   
                   '-codec:v', 
                   'mpeg1video',   
-                  '-an',                 
                   
-                  '-f',
-                  'mpegts',
+                  '-an',                 
                   '-s', '340x340', 
                   '-r', '25', 
                   '-b:v', '150k', 
                   '-bf', '0', 
                   '-muxdelay', '0.001', 
                   '-pix_fmt', 'yuv420p',
-                  '-an', 
+                  
+                  '-f',
+                  'mpegts',
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
+                  
                   ];
 
     if(request.param('audio')){
       var params = params.concat([
                               '-codec:a', 
-                              'mp3',   
-                              '-f', 'mp3', 
+                              'libmp3lame',
+
                               '-ab', '100k', 
-                              '-vn' ,'-ac', 
-                              '2','-ar','22050',
+                              '-ac','2',
+                              '-ar','22050', 
+                              '-vn' ,  
+                              '-f', 'mp3', 
+                              
                               'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
      
