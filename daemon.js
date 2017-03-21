@@ -421,7 +421,9 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             invoked = true;
 
             //var err = code === 0 ? null : new Error('exit code ' + code);
-            err = "Fechando processo.";
+            err = "Fechando da camera ("+idCamera+").";
+            console.log(processos[idCamera]);
+
             callbackError(err);
         });
 
@@ -430,8 +432,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     }
 
     if(tipo =="video" || tipo == "audio"){
-	      var process = childProcess.execFile(scriptPath,params);
-        //var process = childProcess.spawn(scriptPath,params);
+	      //var process = childProcess.execFile(scriptPath,params);
+        var process = childProcess.spawn(scriptPath,params);
         
         if(tipo == "video"){
           encoder[idCamera] = process;
