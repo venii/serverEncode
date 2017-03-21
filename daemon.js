@@ -274,7 +274,7 @@ app.get("/encode_video", function(request, response){ //root dir
               '-codec:a' , 'libmp3lame',              
               '-V','9',
               '-f', 'mp3',
-              '-content_type',''
+              
               'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
               ];
             runScript(childProcess,
