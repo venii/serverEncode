@@ -231,7 +231,7 @@ app.get("/encode_video", function(request, response){ //root dir
                   'tcp',
                   '-i',
                   'rtsp://'+request.param('rtsp'),  
-                  '-qscale:v','20'
+                  '-qscale:v','20',
                   '-s', '340x340', 
                   '-r', '25', 
                   '-b:v', '150k', 
