@@ -84,6 +84,7 @@ app.get("/abre_relay", function(request, response){ //root dir
           }
         }
 
+        hostSemPorta = request.headers.host.split(":")[0];
         portalReal = portasUsadas[1];
         response.json({ error:'relay já aberto para esta camera.',
                         wsVideo: "ws://"+hostSemPorta+":"+portalReal,
