@@ -422,9 +422,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
             //var err = code === 0 ? null : new Error('exit code ' + code);
             err = "camera relay fechado ("+idCamera+").";
-            console.log(code,err);
-            console.log(processos[idCamera]);
-
+            
             callbackError(err);
         });
 
