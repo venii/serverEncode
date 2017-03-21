@@ -223,27 +223,28 @@ app.get("/encode_video", function(request, response){ //root dir
       response.json({ error:'voce deve abrir o relay desta camera antes.'});    
       return;
     }
-    
+  
     var childProcess = require('child_process');
     var params = [
                   '-rtsp_transport',
+                  '-an',
                   'tcp',
                   '-i',
                   'rtsp://'+request.param('rtsp'),  
-                  
+                  '-qscale:v','20'
                   '-s', '340x340', 
                   '-r', '25', 
                   '-b:v', '150k', 
                   '-bf', '0', 
                   '-muxdelay', '0.001', 
-                  '-pix_fmt', 'yuv420p',                
-                  '-codec:v','mpeg1video', 
+                  '-pix_fmt', 'yuv420p',   
                   '-an',
+                  '-codec:v','mpeg1video', 
                   '-f','mpegts',
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   ];
 
-    if(request.param('audio')){
+    /*if(request.param('audio')){
       var params = params.concat([ '-vn',   
                                   '-ac', 
                                   '2',   
@@ -253,7 +254,7 @@ app.get("/encode_video", function(request, response){ //root dir
                                   '-f', 'mp3', 
                                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
-    }
+    }*/
     console.log('ffmpeg.exe '+params.join(' '));
     
     hostSemPorta = request.headers.host.split(":")[0];
