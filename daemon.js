@@ -451,8 +451,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     }
 
     if(tipo =="video" || tipo == "audio"){
-	      //var process = childProcess.execFile(scriptPath,params);
-        var process = childProcess.spawn(scriptPath,params);
+	      var process = childProcess.execFile(scriptPath,params);
+        //var process = childProcess.spawn(scriptPath,params);
       
         if(tipo == "video"){
           encoder[idCamera] = process;
