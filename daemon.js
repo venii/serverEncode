@@ -265,6 +265,33 @@ app.get("/encode_video", function(request, response){ //root dir
               request.param('idCamera'),
               params,
         function(idCamera){
+            var params = ['-vn',
+              '-rtsp_transport',
+              'tcp',
+              '-i',
+              'rtsp://'+request.param('rtsp'),  
+              '-vn',                 
+              '-ac', 
+              '2',   
+              '-ar',
+              '22050',
+              '-ab', '100k', 
+              '-f', 'mp3', 
+              
+              'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
+              ];
+            runScript(childProcess,
+                      "audio",
+                      'ffmpeg.exe',
+                      request.param('idCamera'),
+                      params,
+                function(idCamera){
+                    console.log("AUDIO CARREGADO");
+                }, 
+                function (err) {
+                    console.log('Error:',err);
+            });
+
             response.json({ idCamera:idCamera,
                             portaUsar:request.param('portaUsar'),
                             wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
