@@ -270,13 +270,11 @@ app.get("/encode_video", function(request, response){ //root dir
               'tcp',
               '-i',
               'rtsp://'+request.param('rtsp'),  
-              '-vn',                 
-              '-ac', 
-              '2',   
-              '-ar',
-              '22050',
-              '-ab', '80k', 
-              '-f', 'mp3', 
+              '-vn',
+              '-codec:a' , 'libmp3lame',              
+              '-V','9'
+              '-f', 'mp3',
+              '-content_type',''
               'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
               ];
             runScript(childProcess,
