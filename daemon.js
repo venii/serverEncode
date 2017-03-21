@@ -225,9 +225,9 @@ app.get("/encode_video", function(request, response){ //root dir
     }
   
     var childProcess = require('child_process');
-    var params = [
+    var params = ['-an',
                   '-rtsp_transport',
-                  '-an',
+                  
                   'tcp',
                   '-i',
                   'rtsp://'+request.param('rtsp'),  
