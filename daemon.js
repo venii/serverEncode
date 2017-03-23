@@ -253,13 +253,13 @@ app.get("/encode_video", function(request, response){ //root dir
                                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
     }
-    console.log('ffmpeg.exe '+params.join(' '));
+    console.log('ffmpeg '+params.join(' '));
     
     hostSemPorta = request.headers.host.split(":")[0];
 
     runScript(childProcess,
               "video",
-              'ffmpeg.exe',
+              'ffmpeg',
               request.param('idCamera'),
               params,
         function(idCamera){
@@ -340,13 +340,13 @@ app.get("/encode_audio", function(request, response){ //root dir
                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                   ];
     
-    console.log('ffmpeg.exe '+params.join(' '));
+    console.log('ffmpeg '+params.join(' '));
     
     hostSemPorta = request.headers.host.split(":")[0];
 
     runScript(childProcess,
               "audio",
-              'ffmpeg.exe',
+              'ffmpeg',
               request.param('idCamera'),
               params,
         function(idCamera){
