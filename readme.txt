@@ -41,7 +41,34 @@ ffmpeg.exe -vn -rtsp_transport tcp -i rtsp://admin:admin@w3host.no-ip.org:9009/1
 
 TESTAR input 1 e 2 do encoder 
 
-#
 
-ffmpeg.exe -rtsp_transport tcp -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -qscale:a 15 -qscale:v 20 -s 340x340 -r 24 -b:v 160k -pix_fmt yuv420p -codec:v mpeg1video -f mpegts http://localhost:8081/1234 -f mp3 -vn icecast://camera:camera@localhost:8000/camera_1.mp3 
+#TODOS
+//NAO USAR MUXING_DELAY
 
+ffmpeg -rtsp_transport tcp -re -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -map 0:0 -vcodec mpeg1video -qscale:v 20 -s 320x320 -b:v 200k -bf 0 -r 25 -f mpegts http://localhost:8081/1234 -map 0:1 -c:a aac -ac 1 -ar 44100 -qscale:a 20 -ab 64k -f mpeg icecast://camera:camera@localhost:8000/camera.mp3
+
+
+
+
+ffmpeg -rtsp_transport tcp -re -i rtsp://w3host.no-ip.org:9009/Streaming/Channels/ -map 0:0 -vcodec mpeg1video -qscale:v 20 -s 320x320 -b:v 200k -bf 0 -r 25 -f mpegts http://localhost:8081/1234 -map 0:1 -c:a aac -ac 1 -ar 44100 -qscale:a 20 -ab 64k -f mpeg icecast://camera:camera@localhost:8000/camera.mp3
+
+
+
+#VIDEO
+ ffmpeg -stats -report -rtsp_transport tcp -re -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -map 0:0 -vcodec mpeg2 -qscale:v 12 -f mpegts http://localhost:8081/1234 
+
+#AUDIO
+ ffmpeg -stats -report -rtsp_transport tcp -re -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -map 0:1 -c:a aac -ac 1 -ar 44100 -qscale:a 20 -ab 64k -f mpeg icecast://camera:camera@localhost:8000/camera.mp3
+
+
+
+
+
+
+
+
+
+
+
+#audio deo certo
+ffmpeg -rtsp_transport tcp -re -i rtsp://192.168.0.36/11 -c:a aac -qscale:a 12 -f mpeg icecast://camera:camera@rtec.westus.cloudapp.azure.com:8000/camera.mp3
