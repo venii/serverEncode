@@ -58,10 +58,16 @@ ffmpeg -rtsp_transport tcp -re -i rtsp://w3host.no-ip.org:9009/Streaming/Channel
  ffmpeg -stats -report -rtsp_transport tcp -re -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -map 0:0 -vcodec mpeg2 -qscale:v 12 -f mpegts http://localhost:8081/1234 
 
 #AUDIO
- ffmpeg -stats -report -rtsp_transport tcp -re -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -map 0:1 -c:a aac -ac 1 -ar 44100 -qscale:a 20 -ab 64k -f mpeg icecast://camera:camera@localhost:8000/camera.mp3
+ ffmpeg -stats -report -rtsp_transport tcp -re -i rtsp://admin:admin@w3host.no-ip.org:9009/11 -map 0:1 -c:a aac -ac 1 -ar 44100 -qscale:a 20 -ab 64k -f mpeg icecast://camera:camera@localhost:8000/camera.ogg
 
 
 
+
+CRONTAB
+
+# m h  dom mon dow   command
+@reboot sudo node /home/rtec/serverEncode/daemon.js
+@reboot sudo icecast -c /home/rtec/serverEncode/icecast_linux.xml
 
 
 

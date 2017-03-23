@@ -29,7 +29,7 @@
 
         <!-- Admin logs in with the username given below -->
         <admin-user>camera</admin-user>
-        <admin-password>hcameraackme</admin-password>
+        <admin-password>camera</admin-password>
     </authentication>
 
     <!-- Uncomment this if you want directory listings -->

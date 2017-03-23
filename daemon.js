@@ -360,6 +360,7 @@ app.get("/encode_audio", function(request, response){ //root dir
     
 }); 
 
+
 app.get("/fecha_audio", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
     
@@ -385,7 +386,32 @@ app.get("/fecha_audio", function(request, response){ //root dir
     }
             
    
-});  
+}); 
+
+var servidorAudio = {};
+app.get("/servidor_audio", function(request, response){ //root dir
+    
+    var childProcess = require('child_process');
+    var params = ['-c',
+                  '/home/rtec/serverEncode/icecast_linux.xml',
+                  ];
+    
+    console.log('icecast '+params.join(' '));
+    
+    runScript(childProcess,
+              "servidorAudio",
+              'icecast',
+              null,
+              params,
+        function(idCamera){
+            response.json({ "servidor" : "iniciado", "port":8000});
+
+        }, 
+        function (err) {
+            console.log('Error:',err);
+    });
+    
+});
 
 app.listen(port);
 //no evento de sair do webrelay
@@ -435,6 +461,10 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
         if(tipo == "audio"){
           audioEncoder[idCamera] = process;
+        }
+
+        if(tipo == "servidorAudio"){
+          servidorAudio = process;
         }
 
         process.stdout.on('data', function(data) {
