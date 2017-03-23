@@ -426,8 +426,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     }
 
     if(tipo =="video" || tipo == "audio"){
-	      var process = childProcess.execFile(scriptPath,params);
-        //var process = childProcess.spawn(scriptPath,params);
+	      //var process = childProcess.execFile(scriptPath,params);
+        var process = childProcess.spawn(scriptPath,params);
       
         if(tipo == "video"){
           encoder[idCamera] = process;
@@ -455,23 +455,6 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               delete encoder[idCamera];
               
               //SIGINT processo
-              
-              if(processos[idCamera]){
-                processos[idCamera].kill('SIGTERM');
-                delete processos[idCamera];
-              }
-              //mata relay
-              
-              //libera portas
-              var portasIndex = Object.keys(portas_abertas);
-        
-              for(iPortasDel in portasIndex){
-                var portaI = portasIndex[iPortasDel];
-                
-                if(portas_abertas[portaI] == idCamera){
-                  delete portas_abertas[portaI];
-                }
-              }
               console.log('camera video ('+idCamera+'): desligada');
               
             }
