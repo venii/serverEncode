@@ -246,7 +246,7 @@
         <chroot>1</chroot>
      
         <changeowner>
-            <user>root</user>
+            <user>rtec</user>
             <group>root</group>
         </changeowner>
         
