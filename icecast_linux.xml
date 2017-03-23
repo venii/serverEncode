@@ -23,13 +23,13 @@
 
     <authentication>
         <!-- Sources log in with username 'source' -->
-        <source-password>hackme</source-password>
+        <source-password>camera</source-password>
         <!-- Relays log in username 'relay' -->
-        <relay-password>hackme</relay-password>
+        <relay-password>camera</relay-password>
 
         <!-- Admin logs in with the username given below -->
-        <admin-user>admin</admin-user>
-        <admin-password>hackme</admin-password>
+        <admin-user>camera</admin-user>
+        <admin-password>hcameraackme</admin-password>
     </authentication>
 
     <!-- Uncomment this if you want directory listings -->
