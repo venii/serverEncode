@@ -67,7 +67,7 @@ CRONTAB
 
 # m h  dom mon dow   command
 @reboot sudo node /home/rtec/serverEncode/daemon.js
-@reboot sudo icecast -c /home/rtec/serverEncode/icecast_linux.xml
+@reboot nohup icecast -c /home/rtec/serverEncode/icecast_linux.xml
 
 
 
@@ -78,3 +78,9 @@ CRONTAB
 
 #audio deo certo
 ffmpeg -rtsp_transport tcp -re -i rtsp://192.168.0.36/11 -c:a aac -qscale:a 12 -f mpeg icecast://camera:camera@rtec.westus.cloudapp.azure.com:8000/camera.mp3
+
+
+
+
+
+
