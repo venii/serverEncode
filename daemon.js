@@ -477,22 +477,29 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               console.log('camera video ('+idCamera+'): recebendo video',data);
             if(tipo == "audio")
               console.log('camera audio ('+idCamera+'): recebendo audio',data);
+            if(tipo == "servidorAudio")
+              console.log('servidorAudio: recebendo',data);
         });
 
         process.on('close', function() {
             if(tipo == "video"){
               //mata camera
               delete encoder[idCamera];
-              
               //SIGINT processo
               console.log('camera video ('+idCamera+'): desligada');
               
             }
 
             if(tipo == "audio"){
-
               delete audioEncoder[idCamera];
               console.log('camera audio ('+idCamera+'): desligada');
+            
+            }
+
+
+            if(tipo == "servidorAudio"){
+              
+              console.log('servidorAudio: desligado');
             
             }
            
