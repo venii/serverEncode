@@ -226,15 +226,14 @@ app.get("/encode_video", function(request, response){ //root dir
   
     var childProcess = require('child_process');
     var params = ['-re'
-                  '-rtsp_transport',
-                  'tcp',
-                  '-i',
-                  'rtsp://'+request.param('rtsp'),  
+                  '-rtsp_transport','tcp',
+                  '-i', 'rtsp://'+request.param('rtsp'),  
                   
                   '-map' , '0:0'   
                   '-s', '340x340', 
                   '-r', '25', 
                   '-codec:v','mpeg1video', 
+                  
                   '-f','mpeg', /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   
