@@ -230,11 +230,12 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-i', 'rtsp://'+request.param('rtsp'),  
                   
                   '-map' , '0:0',  
+                  '-codec:v','mpeg1video', 
                   '-s', '340x340', 
                   '-r', '25', 
-                  '-codec:v','mpeg1video', 
                   
-                  '-f','mpeg', /*ou mpegts*/
+                  
+                  '-f','mpegts', /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   
                   ];
