@@ -193,3 +193,10 @@ ffmpeg -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9009/11^" -f
 
 SE CORTAR O AUDIO ELE N DA O PROBLEMA
  ffmpeg -an -rtsp_transport tcp -i ^"rtsp://admin:admin@w3host.no-ip.org:9010/Streaming/Channels/2^" -f mpegts -codec:v mpeg1video -s 340x340 -r 25 -b:v 1000k -bf 0 -muxdelay 0.001 -an ^"http://rtec.westus.cloudapp.azure.com:8081/1234^"
+
+#usar o 1 do stream o 2 n tem audio hikivision
+
+#CAMERA PRECISA TER O AUDIO mp2 (NAO PODE TER PCM_ALAW VULGO G711)
+
+ ffmpeg -i "rtsp://admin:admin@w3host.no-ip.org:9010/Streaming/Channels/1" -map 0:0 -codec:v mpeg1video -s 340x340 -r 25 "http://localhost:8081/1234" -map 0:1 -c:a copy -ac 1 -ar 44100 -f mp3 "icecast://camera:camera@localhost:8000/camera.mp3"
+
