@@ -229,7 +229,7 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-rtsp_transport','tcp',
                   '-i', 'rtsp://'+request.param('rtsp'),  
                   
-                  '-map' , '0:0'   
+                  '-map' , '0:0',  
                   '-s', '340x340', 
                   '-r', '25', 
                   '-codec:v','mpeg1video', 
