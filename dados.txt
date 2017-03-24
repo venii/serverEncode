@@ -206,7 +206,5 @@ vlc
 
 ## CRIAR PRIMEIRA O CANAL RTSP REENCODADO POR VLC E DPS FFMPEG
 
-linux ->
-export DISPLAY=:0 && cvlc "rtsp://w3host.no-ip.org:9010/Streaming/Channels/1" --sout ":sout=#transcode{vcodec=h264,acodec=mp3,ab=128,channels=1,samplerate=44100}:rtp{sdp=rtsp://:8554/camera_2}:sout-keep"
-
+#LINUX
 cvlc --sout "#transcode{vcodec=h264,acodec=mp3,ab=128,channels=1,samplerate=44100}:rtp{sdp=rtsp://:8554/camera_2}" rtsp://w3host.no-ip.org:9010/Streaming/Channels/1
