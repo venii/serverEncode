@@ -322,19 +322,16 @@ app.get("/encode_audio", function(request, response){ //root dir
     }
     
     var childProcess = require('child_process');
-    var params = ['-vn',
+    var params = ['-re',
                   '-rtsp_transport',
                   'tcp',
                   '-i',
-                  'rtsp://'+request.param('rtsp'),  
-                  '-vn',                 
-                  '-ac', 
-                  '2',   
-                  '-ar',
-                  '22050',
-                  '-ab', '100k', 
-                  '-f', 'mp3', 
                   
+                  'rtsp://'+request.param('rtsp'),  
+                  '-map', '0:0',                 
+                  '-codec:a', 'libmp3lame',   
+        
+                  '-f', 'mp3',           
                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                   ];
     
@@ -386,31 +383,6 @@ app.get("/fecha_audio", function(request, response){ //root dir
    
 }); 
 
-var servidorAudio = {};
-app.get("/servidor_audio", function(request, response){ //root dir
-    
-    var childProcess = require('child_process');
-    var params = ['-c',
-                  '/home/rtec/serverEncode/icecast_linux.xml',
-                  ];
-    
-    console.log('icecast '+params.join(' '));
-    
-    runScript(childProcess,
-              "servidorAudio",
-              'icecast',
-              null,
-              params,
-        function(idCamera){
-            response.json({ "servidor" : "iniciado", "port":8000});
-
-        }, 
-        function (err) {
-            console.log('Error:',err);
-    });
-    
-});
-
 app.listen(port);
 //no evento de sair do webrelay
 //fazer o webrealy do jsmpeg enviar sinal para desligar ffmpeg e relay
@@ -449,7 +421,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
     }
 
-    if(tipo =="video" || tipo == "audio" || tipo == "servidorAudio"){
+    if(tipo =="video" || tipo == "audio"){
 	      var process = childProcess.execFile(scriptPath,params);
         //var process = childProcess.spawn(scriptPath,params);
       
@@ -461,9 +433,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
           audioEncoder[idCamera] = process;
         }
 
-        if(tipo == "servidorAudio"){
-          servidorAudio = process;
-        }
+      
 
         process.stdout.on('data', function(data) {
             //console.log(data);
@@ -475,8 +445,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               console.log('camera video ('+idCamera+'): recebendo video',data);
             if(tipo == "audio")
               console.log('camera audio ('+idCamera+'): recebendo audio',data);
-            if(tipo == "servidorAudio")
-              console.log('servidorAudio: recebendo',data);
+            
         });
 
         process.on('close', function() {
@@ -495,11 +464,6 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             }
 
 
-            if(tipo == "servidorAudio"){
-              
-              console.log('servidorAudio: desligado');
-            
-            }
            
         });
 
