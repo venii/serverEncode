@@ -208,3 +208,6 @@ vlc
 
 #LINUX
 cvlc --sout "#transcode{vcodec=h264,acodec=mp3,ab=128,channels=1,samplerate=44100}:rtp{sdp=rtsp://:8554/camera_2}" rtsp://w3host.no-ip.org:9010/Streaming/Channels/1
+
+#windows
+vlc --sout "#transcode{vcodec=h264,acodec=mp3,ab=128,channels=1,samplerate=44100}:rtp{sdp=rtsp://:8554/camera_2}" rtsp://w3host.no-ip.org:9010/Streaming/Channels/1
