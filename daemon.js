@@ -401,7 +401,7 @@ app.get("/server_audio", function(request, response){ //root dir
 
     */
     var exec = require('child_process').exec;
-    exec('sudo service icecast-kh start', function(error, stdout, stderr) {
+    exec('cd /home/rtec/serverEncode && icecast -c icecast_linux.xml', function(error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         
