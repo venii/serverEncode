@@ -34,17 +34,17 @@
     <fileserve>1</fileserve>
 
     <paths>
-        <basedir>/usr/local/share/icecast</basedir>
-        <logdir>/usr/local/var/log/icecast</logdir>
-        <webroot>/usr/local/share/icecast/web</webroot>
-        <adminroot>/usr/local/share/icecast/admin</adminroot>
+        <basedir>/home/rtec/icecast-kh-icecast-2.4.0-kh3/</basedir>
+        <logdir>/home/rtec/serverEncode/</logdir>
+        <webroot>/home/rtec/icecast-kh-icecast-2.4.0-kh3/web</webroot>
+        <adminroot>/home/rtec/icecast-kh-icecast-2.4.0-kh3/admin</adminroot>
       
         <alias source="/" dest="/index.html"/>
     </paths>
 
     <logging>
-        <accesslog>/home/rtec/serverEncode/access.log</accesslog>
-        <errorlog>/home/rtec/serverEncode/error.log</errorlog>
+        <accesslog>access.log</accesslog>
+        <errorlog>error.log</errorlog>
       	<loglevel>3</loglevel>
     </logging>
 
