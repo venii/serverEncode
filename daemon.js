@@ -394,9 +394,14 @@ app.get("/server_audio", function(request, response){ //root dir
       response.json({ error:'ja foi aberto.'});
       return;
     }
+    /*
+        chown user /usr/local/var/log/icecast/error.log
+        chown user /usr/local/var/log/icecast/access.log
+        
 
+    */
     var exec = require('child_process').exec;
-    exec('cd /home/rtec/serverEncode/ && icecast -c icecast_linux.xml', function(error, stdout, stderr) {
+    exec('icecast -c /home/rtec/serverEncode/icecast_linux.xml', function(error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         
