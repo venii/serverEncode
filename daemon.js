@@ -396,7 +396,7 @@ app.get("/server_audio", function(request, response){ //root dir
     }
 
     var exec = require('child_process').exec;
-    exec('cd /home/rtec/serverEncode/ && icecast -c icecast_linux.xml', function(error, stdout, stderr) {
+    exec('cd /home/rtec/serverEncode/ && sudo rtec icecast -c icecast_linux.xml', function(error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         
