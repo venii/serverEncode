@@ -48,11 +48,11 @@
       	<loglevel>3</loglevel>
     </logging>
 
-    <!--<security>
+    <security>
         <chroot>1</chroot>
         <changeowner>
             <user>rtec</user>
             <group>root</group>
         </changeowner>  
-    </security>-->
+    </security>
 </icecast>
