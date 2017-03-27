@@ -35,8 +35,9 @@
 
     <paths>
         <basedir>/home/rtec/icecast-kh-icecast-2.4.0-kh3</basedir>
-        <webroot>/home/rtec/icecast-kh-icecast-2.4.0-kh3/web</webroot>
-        <adminroot>/home/rtec/icecast-kh-icecast-2.4.0-kh3/admin</adminroot>
+        <logdir>/logs</logdir>
+        <webroot>/web</webroot>
+        <adminroot>/admin</adminroot>
       
         <alias source="/" dest="/index.html"/>
     </paths>
