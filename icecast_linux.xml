@@ -35,7 +35,6 @@
 
     <paths>
         <basedir>/home/rtec/icecast-kh-icecast-2.4.0-kh3</basedir>
-        <logdir>/home/rtec/serverEncode</logdir>
         <webroot>/home/rtec/icecast-kh-icecast-2.4.0-kh3/web</webroot>
         <adminroot>/home/rtec/icecast-kh-icecast-2.4.0-kh3/admin</adminroot>
       
