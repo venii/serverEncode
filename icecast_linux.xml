@@ -49,7 +49,7 @@
     </logging>
 
     <security>
-        <chroot>0</chroot>
+        <chroot>1</chroot>
         <changeowner>
             <user>rtec</user>
             <group>root</group>
