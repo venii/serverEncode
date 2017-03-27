@@ -355,40 +355,6 @@ app.get("/encode_audio", function(request, response){ //root dir
     
 });
 
-var audioServer = false;
-app.get("/server_audio", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81/encode_audio?idCamera=1&rtsp=w3host.no-ip.org:9009/11
-    //request.param('idCamera')
-
-    if(audioServer){
-      response.json({ error:'ja foi aberto.'});
-      return;
-    }
-
-    
-    var childProcess = require('child_process');
-    var params = ['-c',
-                  '/home/rtec/serverEncode/icecast_linux.xml'
-                  ];
-    
-    console.log('icecast '+params.join(' '));
-    
-    hostSemPorta = request.headers.host.split(":")[0];
-
-    runScript(childProcess,
-              "icecast",
-              'icecast',
-              null,
-              params,
-        function(idCamera){
-            response.json({ servidor : "aberto."});
-
-        }, 
-        function (err) {
-            console.log('Error:',err);
-    });
-    
-}); 
 
 
 app.get("/fecha_audio", function(request, response){ //root dir
@@ -416,6 +382,43 @@ app.get("/fecha_audio", function(request, response){ //root dir
     }
             
    
+}); 
+
+
+var audioServer = false;
+app.get("/server_audio", function(request, response){ //root dir
+    //http://rtec.westus.cloudapp.azure.com:81/encode_audio?idCamera=1&rtsp=w3host.no-ip.org:9009/11
+    //request.param('idCamera')
+
+    if(audioServer){
+      response.json({ error:'ja foi aberto.'});
+      return;
+    }
+
+    
+    var childProcess = require('child_process');
+    var params = ['-c',
+                  'icecast_linux.xml'
+                  ];
+    
+    console.log('icecast '+params.join(' '));
+    
+    hostSemPorta = request.headers.host.split(":")[0];
+
+    runScript(childProcess,
+              "icecast",
+              'cd /home/rtec/serverEncode && icecast',
+              null,
+              params,
+        function(idCamera){
+            audioServer = true;
+            response.json({ servidor : "aberto."});
+
+        }, 
+        function (err) {
+            console.log('Error:',err);
+    });
+    
 }); 
 
 app.listen(port);
