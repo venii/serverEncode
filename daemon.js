@@ -456,7 +456,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
     }
 
-    if(tipo =="video" || tipo == "audio"){
+    if(tipo =="video" || tipo == "audio" || tipo == "icecast"){
 	      var process = childProcess.execFile(scriptPath,params);
         //var process = childProcess.spawn(scriptPath,params);
       
@@ -468,18 +468,22 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
           audioEncoder[idCamera] = process;
         }
 
-      
-
+    
         process.stdout.on('data', function(data) {
             //console.log(data);
         });
 
         process.stderr.on('data', function(data) {
            
-            if(tipo == "video")
+            if(tipo == "video"){
               console.log('camera video ('+idCamera+'): recebendo video',data);
-            if(tipo == "audio")
+            }
+            if(tipo == "audio"){
               console.log('camera audio ('+idCamera+'): recebendo audio',data);
+            }
+            if(tipo == "icecast"){
+              console.log('icecast',data);
+            }
             
         });
 
@@ -496,6 +500,10 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               delete audioEncoder[idCamera];
               console.log('camera audio ('+idCamera+'): desligada');
             
+            }
+
+            if(tipo == "icecast"){
+              console.log('icecast close');
             }
 
 
