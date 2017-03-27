@@ -395,28 +395,15 @@ app.get("/server_audio", function(request, response){ //root dir
       return;
     }
 
-    
-    var childProcess = require('child_process');
-    var params = ['-c',
-                  'icecast_linux.xml'
-                  ];
-    
-    console.log('icecast '+params.join(' '));
-    
-    hostSemPorta = request.headers.host.split(":")[0];
-
-    runScript(childProcess,
-              "icecast",
-              'cd /home/rtec/serverEncode && icecast',
-              null,
-              params,
-        function(idCamera){
-            audioServer = true;
-            response.json({ servidor : "aberto."});
-
-        }, 
-        function (err) {
-            console.log('Error:',err);
+    var exec = require('child_process').exec;
+    exec('node -v', function(error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        
+        if (error !== null) {
+            response.json({ error:error});
+            return;
+        }
     });
     
 }); 
