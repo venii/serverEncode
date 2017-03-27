@@ -401,8 +401,11 @@ app.get("/server_audio", function(request, response){ //root dir
         console.log('stderr: ' + stderr);
         
         if (error !== null) {
-            response.json({ error:error});
+            response.json({ error:error,stderr:stderr});
             return;
+        }else{
+          response.json({ stdout:stdout,stderr:stderr});
+          return;
         }
     });
     
