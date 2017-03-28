@@ -35,9 +35,9 @@
 
     <paths>
         <basedir>/home/rtec/icecast-kh-icecast-2.4.0-kh3</basedir>
-        <logdir>/logs</logdir>
-        <webroot>/web</webroot>
-        <adminroot>/admin</adminroot>
+        <logdir>/home/rtec/icecast-kh-icecast-2.4.0-kh3/logs</logdir>
+        <webroot>/home/rtec/icecast-kh-icecast-2.4.0-kh3/web</webroot>
+        <adminroot>/home/rtec/icecast-kh-icecast-2.4.0-kh3/admin</adminroot>
       
         <alias source="/" dest="/index.html"/>
     </paths>
@@ -47,11 +47,11 @@
         <errorlog>error.log</errorlog>
       	<loglevel>3</loglevel>
     </logging>
-
+    <!-- chmod na pasta icecast-kh-icecast-2.4.0-kh3 com 777 e rodar com sudo icecast -c *.xml -->
     <security>
-        <chroot>1</chroot>
+        <chroot>0</chroot>
         <changeowner>
-            <user>root</user>
+            <user>rtec</user>
             <group>root</group>
         </changeowner>  
     </security>
