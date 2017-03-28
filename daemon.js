@@ -398,7 +398,7 @@ app.get("/server_audio", function(request, response){ //root dir
         chown user /usr/local/var/log/icecast/error.log
         chown user /usr/local/var/log/icecast/access.log
         
-
+        linux
     */
     var exec = require('child_process').exec;
     exec('cd /home/rtec/serverEncode && sudo icecast -c icecast_linux.xml', function(error, stdout, stderr) {
