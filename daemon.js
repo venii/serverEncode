@@ -96,6 +96,8 @@ app.get("/abre_relay", function(request, response){ //root dir
     }
     //previni abrir outros relays
     
+
+    //SE O PROCESSO JA ESTIVER FUNCIONANDO
     if(processos[request.param('idCamera')]){
         var portasIndices = Object.keys(portas_abertas);
         var portasUsadas = new Array;
@@ -162,6 +164,12 @@ app.get("/abre_relay", function(request, response){ //root dir
                   function (err) {
                       console.log('Error:',err);
               });  
+          }else{
+            response.json({ error:'relay já aberto para esta camera.',
+                            wsVideo: "ws://"+hostSemPorta+":"+portalReal,
+                            httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
+                          });
+            return;
           }
         }else{
           response.json({ error:'relay já aberto para esta camera.',
@@ -172,8 +180,10 @@ app.get("/abre_relay", function(request, response){ //root dir
 
 
         }
-        
+
     }
+        
+    
             
     if(portas_abertas[request.param('portaUsarRelay')]){
         response.json({ error:'porta inicial ja usada.'});
