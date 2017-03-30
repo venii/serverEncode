@@ -131,7 +131,7 @@ app.get("/abre_relay", function(request, response){ //root dir
                       response.json({ idCamera:idCamera,
                                       portaUsar:request.param('portaUsar'),
                                       wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
-                                      httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
+                                      httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3",
                                       reencoded  : true
                                     });
 
