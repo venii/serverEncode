@@ -24,6 +24,11 @@ app.get("/ultima_porta",function(request,response){
     //http://rtec.westus.cloudapp.azure.com:81/ultima_porta
     var portas = Object.keys(portas_abertas);
     
+    if(!request.param('idCamera')){
+      response.json({ error:'falta o parametro idCamera.'});    
+      return;
+    }
+
     var port_start_in   = 8081;
     var port_start_out  = 8082;
     var distancia_portas= 2;
@@ -33,15 +38,33 @@ app.get("/ultima_porta",function(request,response){
                         portaUsarWs:port_start_out});
         return;
     }else{
-        var iPF = portas.splice(-1,1)[0];
-        var iPI = portas.splice(-1,1)[0];
-        
-        var novaPortaI = parseInt(iPI)+distancia_portas;
-        var novaPortaF = parseInt(iPF)+distancia_portas;
-        
+
+        var portasIndices = Object.keys(portas_abertas);
+        var portasUsadas = new Array;
+
+        for(i in portasIndices){
+          var porta = portas_abertas[portasIndices[i]];
+          if(porta == request.param('idCamera')){
+            portasUsadas.push(portasIndices[i]);
+          }
+        }
+
+        if(portasUsadas.length == 0){
+          var iPF = portas.splice(-1,1)[0];
+          var iPI = portas.splice(-1,1)[0];
+          
+          var novaPortaI = parseInt(iPI)+distancia_portas;
+          var novaPortaF = parseInt(iPF)+distancia_portas;
+       
+        }else{
+          novaPortaI = portasUsadas[0];
+          novaPortaF = portasUsadas[1];
+        }
+
         response.json({ portaUsarRelay:novaPortaI,
                         portaUsarWs :novaPortaF});
         return;
+
     }
     
 });
