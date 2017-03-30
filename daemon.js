@@ -89,7 +89,7 @@ app.get("/abre_relay", function(request, response){ //root dir
 
 
         if(request.param('rtsp') ){
-          if(encoder[request.param('idCamera')]){
+          if(!encoder[request.param('idCamera')]){
               var childProcess = require('child_process');
               var params = ['-re',
                             '-rtsp_transport','tcp',
@@ -132,6 +132,7 @@ app.get("/abre_relay", function(request, response){ //root dir
                                       portaUsar:request.param('portaUsar'),
                                       wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
                                       httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
+                                      reencoded  : true
                                     });
 
                   }, 
