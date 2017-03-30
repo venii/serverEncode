@@ -88,65 +88,65 @@ app.get("/abre_relay", function(request, response){ //root dir
         portalReal = portasUsadas[1];
 
 
-        if(encoder[request.param('idCamera')]){
-          response.json({ error:'relay já aberto para esta camera.',
-                        wsVideo: "ws://"+hostSemPorta+":"+portalReal,
-                        httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
-                      });
-          return;
-        }else{
-
-
-          var childProcess = require('child_process');
-          var params = ['-re',
-                        '-rtsp_transport','tcp',
-                        '-i', 'rtsp://'+request.param('rtsp'),  
-                        
-                        '-map' , '0:0',  
-                        '-codec:v','mpeg1video', 
-                        '-s', '340x340', 
-                        '-r', '25', 
-                        
-                        
-                        '-f','mpegts', /*ou mpegts*/
-                        'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
-                        
-                        ];
+        if(request.param('rtsp') ){
+          if(encoder[request.param('idCamera')]){
+              var childProcess = require('child_process');
+              var params = ['-re',
+                            '-rtsp_transport','tcp',
+                            '-i', 'rtsp://'+request.param('rtsp'),  
+                            
+                            '-map' , '0:0',  
+                            '-codec:v','mpeg1video', 
+                            '-s', '340x340', 
+                            '-r', '25', 
+                            
+                            
+                            '-f','mpegts', /*ou mpegts*/
+                            'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
+                            
+                            ];
 
 
 
 
-          if(request.param('audio')){
-            var params = params.concat(['-map', '0:1',  
-                                        '-codec:a','libmp3lame',
-                                        
-                                        '-f', 'mp3', 
-                                        'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
-                                        ]);
+              if(request.param('audio')){
+                var params = params.concat(['-map', '0:1',  
+                                            '-codec:a','libmp3lame',
+                                            
+                                            '-f', 'mp3', 
+                                            'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
+                                            ]);
+              }
+              console.log('ffmpeg '+params.join(' '));
+              
+              hostSemPorta = request.headers.host.split(":")[0];
+
+              runScript(childProcess,
+                        "video",
+                        'ffmpeg',
+                        request.param('idCamera'),
+                        params,
+                  function(idCamera){
+                      
+                      response.json({ idCamera:idCamera,
+                                      portaUsar:request.param('portaUsar'),
+                                      wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
+                                      httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
+                                    });
+
+                  }, 
+                  function (err) {
+                      console.log('Error:',err);
+              });  
           }
-          console.log('ffmpeg '+params.join(' '));
-          
-          hostSemPorta = request.headers.host.split(":")[0];
+        }else{
+          response.json({ error:'relay já aberto para esta camera.',
+                          wsVideo: "ws://"+hostSemPorta+":"+portalReal,
+                          httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
+                        });
+          return;
 
-          runScript(childProcess,
-                    "video",
-                    'ffmpeg',
-                    request.param('idCamera'),
-                    params,
-              function(idCamera){
-                  
-                  response.json({ idCamera:idCamera,
-                                  portaUsar:request.param('portaUsar'),
-                                  wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
-                                  httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
-                                });
 
-              }, 
-              function (err) {
-                  console.log('Error:',err);
-          });
-
-          
         }
         
     }
