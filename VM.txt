@@ -1,0 +1,43 @@
+
+1#Baixar UBUNTU SERVER - https://www.ubuntu.com/download/server/thank-you?country=BR&version=16.04.2&architecture=amd64
+
+2#Baixar VIRTUAL BOX - https://www.virtualbox.org/wiki/Downloads
+
+3#Abrir VIRTUAL BOX>
+	  Clicar em "novo" >
+	  Digitar nome da VM - Proximo >
+	  Configurar RAM (colocar 4gb se tiver como)- Proximo >
+	  Criar um disco virtual agora - Proximo >
+	  Escolher VDI - Proximo >
+	  Escolher Dinamicamente Alocado - Proximo >
+	  Criar >
+
+4#Selecionar a maquina virtual criar e ir em "Configurações" (botão direito em cima da maquina desejada e selecione "Configurações")
+	  Ir em "armazenamento">
+	  Selecionar controladora IDE - "Vazio" >
+	  Clicar no icone de cd do lado e selecionar "Selecione um arquivo de CD/DVD digital..." >
+	  Selecionar o arquivo baixado do site do UBUNTU ("ubuntu-16.04.2-server-amd64.iso") >
+	  Depois de selecionar a imagem (ISO) clicar em "Ok" >
+	  Selecionar a maquina virtual e clicar em "Iniciar" >
+
+5# Configurando o Linux
+	Selecionar linguagem >
+	Selecionar "Instalar ubuntu server" >
+	Se a linguagem que voce selecionou nao tiver toda traduzida para o sistema pode clicar em "YES" da mesma forma - Enter  >
+	Selecione o tipo de teclado - Enter >
+	Selecionar o layout do teclado - Enter  >
+	Digite o nome da maquina - Enter >
+	Digite o nome do usuario (esse usuario voce vai autenticar no LINUX) (rtec) - Enter >
+	Digite a senha para esse usuario - Enter > 
+	Digite a senha novamente para esse usuario - Enter > 
+	Selecione não para nao encriptar a sua pasta pessoal - Enter >
+	Selecione sim para o time zone - Enter >
+	Seleciona a opção "usar o disco inteiro" - Enter >
+	Será mostrado a poartição que será instalado - Enter >
+	Escolher "sim" em escrever as mudanças no disco - Enter >
+
+	 
+
+
+
+
