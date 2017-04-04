@@ -214,3 +214,33 @@ vlc --sout "#transcode{vcodec=h264,acodec=mp3,ab=128,channels=1,samplerate=44100
 
 #LINUX
 rodar sudo icecast -c icecast_linux.xml
+
+
+
+'-map', '0:1',  
+                                            '-codec:a','libmp3lame',
+                                            '-q:a ','9',
+                                            '-f', 'mp3', 
+                                            'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
+
+ffmpeg -rtsp_transport tcp -i "rtsp://w3host.no-ip.org:9010/Streaming/Channels/1" -map 0:1 -c:a libmp3lame -q:a 9 -f mp3 "icecast://camera:camera@localhost:8000/camera.mp3"
+
+//rtsp://w3host.no-ip.org:9010/Streaming/Channels/1
+
+//rtsp://admin:admin@w3host.no-ip.org:9009/11
+
+
+
+
+  
+  String PostData="sample={\"id_componente\":1,";
+  PostData=PostData+"}";  
+  
+  client.println("POST /rtec/admin/api/1.0/chamar HTTP/1.1");
+  client.println("Host: w3host.no-ip.org:8080");
+  client.println("User-Agent: Arduino/1.0");
+  client.println("Connection: close");
+  client.println("Content-Type: application/x-www-form-urlencoded;");
+  client.print("Content-Length: ");
+  client.println(PostData.length());
+  client.println(PostData);
