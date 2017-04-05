@@ -88,18 +88,21 @@
 				cd serverEncode
 				npm install
 				cd ..
-	Execute o comando crontab -e
+
+	Execute o comando "sudo crontab -e -u root"
 				selecionar 2 para usar o nano
 
 				Digite os seguintes comandos 
 				"
 					@reboot root cd /home/rtec/serverEncode && sudo node daemon.js
 
-					@reboot root icecast -c /home/rtec/serverEncode/icecast_linux.xml
+					@reboot root sudo icecast -c /home/rtec/serverEncode/icecast_linux.xml
 
 				"
 				Ctrl + X > 
 				S (para salvar)
+
+
 	Execute o comando "sudo chmod 777 -R serverEncode/ icecast-kh-icecast-2.4.0-kh3"
 
 
