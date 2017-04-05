@@ -93,9 +93,9 @@
 
 				Digite os seguintes comandos 
 				"
-					@reboot cd /home/rtec/serverEncode && sudo node daemon.js
+					@reboot root cd /home/rtec/serverEncode && sudo node daemon.js
 
-					@reboot icecast -c /home/rtec/serverEncode/icecast_linux.xml
+					@reboot root icecast -c /home/rtec/serverEncode/icecast_linux.xml
 
 				"
 				Ctrl + X > 
