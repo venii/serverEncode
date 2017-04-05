@@ -64,6 +64,8 @@
 	 dns-nameservers 8.8.8.8
 	"
 
+	Execute o comando "sudo apt-get install ffmpeg"
+
 	Execute o comando "wget https://github.com/karlheyes/icecast-kh/archive/icecast-2.4.0-kh3.tar.gz"
 			Excute em sequencia>
 				cd icecast-kh-icecast-2.4.0-kh3
@@ -82,6 +84,8 @@
 	Execute o comando "sudo apt-get install nodejs"
 	Execute o comando "sudo apt-get install nodejs-legacy"
 	Execute o comando "sudo apt-get install npm"
+
+	
 
 	Execute o comando "git clone https://github.com/venii/serverEncode" >
 				Execute a sequencia>
