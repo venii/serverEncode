@@ -13,11 +13,20 @@
 	  Criar >
 
 4#Selecionar a maquina virtual criar e ir em "Configurações" (botão direito em cima da maquina desejada e selecione "Configurações")
-	  Ir em "armazenamento">
+	
+	  Ir no menu Arquivo > Preferencias > Rede e Adicionar uma Nova Rede nat , logo apos dar 2 cliques em cima do registro criado e digitar em CIDR da rede "192.168.0.0/24" e logo apos em Ok 
+
+	  Ir em "armazenamento" >
 	  Selecionar controladora IDE - "Vazio" >
 	  Clicar no icone de cd do lado e selecionar "Selecione um arquivo de CD/DVD digital..." >
 	  Selecionar o arquivo baixado do site do UBUNTU ("ubuntu-16.04.2-server-amd64.iso") >
 	  Depois de selecionar a imagem (ISO) clicar em "Ok" >
+
+
+	  Ir em "redes" >
+	  Selecionar primeiro adaptador deixar em bridge
+
+
 	  Selecionar a maquina virtual e clicar em "Iniciar" >
 
 5# Configurando o Linux
@@ -35,8 +44,65 @@
 	Seleciona a opção "usar o disco inteiro" - Enter >
 	Será mostrado a poartição que será instalado - Enter >
 	Escolher "sim" em escrever as mudanças no disco - Enter >
+	Será mostrado a configuração de proxy (digitar o endereço se usar !!!) - Selecion continuar - Enter >
+	Selecionar "sem atualizações automaticas" - Enter >
+	Selecionar continuar sem selecionar nada (usar tab para sair da lista) - Enter >
+	Selecionar "Sim" para instalar o GRUB - Enter >
+	Selecionar "Continuar" - Enter >
 
-	 
+6# Configurando Ambiente
+
+	Autentique no linux com a senha que voce cadastrou no passo anterior >
+
+	Execute o comando "sudo nano /etc/networking/interfaces" >
+	Altere a palavra "DHCP" por static e logo apos digite essa configuraçao >
+
+	"address 192.168.0.199
+	 netmask 255.255.0.0
+	 gateway 192.168.0.1
+	 broadcast 192.168.255.255
+	 dns-nameservers 8.8.8.8
+	"
+
+	Execute o comando "wget https://github.com/karlheyes/icecast-kh/archive/icecast-2.4.0-kh3.tar.gz"
+			Excute em sequencia>
+				cd icecast-kh-icecast-2.4.0-kh3
+				sudo apt-get install build-essential
+				sudo apt-get install libxml2
+				sudo apt-get install libxslt1-dev
+				sudo apt-get install vorbis-tools
+				sudo apt-get install libvorbis-dev
+
+				sudo ./configure
+				sudo make
+				sudo make install
+				cd ..
+	Execute o comando "tar -zxvf icecast-2.4.0-kh3.tar.gz"
+
+	Execute o comando "sudo apt-get install nodejs"
+	Execute o comando "sudo apt-get install nodejs-legacy"
+	Execute o comando "sudo apt-get install npm"
+
+	Execute o comando "git clone https://github.com/venii/serverEncode" >
+				Execute a sequencia>
+				cd serverEncode
+				npm install
+				cd ..
+	Execute o comando crontab -e
+				selecionar 2 para usar o nano
+
+				Digite os seguintes comandos 
+				"
+					@reboot cd /home/rtec/serverEncode && sudo node daemon.js
+
+					@reboot icecast -c /home/rtec/serverEncode/icecast_linux.xml
+
+				"
+				Ctrl + X > 
+				S (para salvar)
+	Execute o comando "sudo chmod 777 -R serverEncode/ icecast-kh-icecast-2.4.0-kh3"
+
+
 
 
 
