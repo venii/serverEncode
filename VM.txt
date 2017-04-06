@@ -113,6 +113,11 @@
 	Execute o comando "sudo chmod 777 -R serverEncode/ icecast-kh-icecast-2.4.0-kh3"
 
 
+	Abrir virtual box 
+		Arquivo exportar appliance > colocar o nome do arquivo e salvar
+
+	Abrir Virtual box
+		Arquivo importar appliance > selecionar aquivo ova gerado no passo anterior
 
 
 
