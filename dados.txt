@@ -244,3 +244,8 @@ ffmpeg -rtsp_transport tcp -i "rtsp://w3host.no-ip.org:9010/Streaming/Channels/1
   client.print("Content-Length: ");
   client.println(PostData.length());
   client.println(PostData);
+
+
+
+
+  ffmpeg -f dshow -i audio="Microfone (Realtek High Definition Audio)" -map 0:0 -c:a libmp3lame -f mp3 "icecast://camera:camera@localhost:8000/camera_1.mp3"
