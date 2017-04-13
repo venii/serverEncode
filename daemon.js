@@ -121,10 +121,8 @@ app.get("/abre_relay", function(request, response){ //root dir
                             '-i', 'rtsp://'+request.param('rtsp'),  
                             
                             '-map' , '0:0',  
-                            '-codec:v','mpeg1video', 
-                            
+                            '-codec:v','mpeg1video',
 
-                           '-bufsize', '64k',
                            '-b','64k',
                             '-s', '340x340', 
                             '-r', '24', 
@@ -333,7 +331,6 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-map' , '0:0',  
                   '-codec:v','mpeg1video', 
                   
-                  '-bufsize', '64k',
                   '-b','64k',
                   '-s', '340x340', 
                   '-r', '24', 
