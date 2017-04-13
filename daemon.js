@@ -140,7 +140,7 @@ app.get("/abre_relay", function(request, response){ //root dir
                                             '-codec:a','libmp3lame',
                                             
                                             '-bufsize', '128k',
-                                            '-ab' ,'128',
+                                            '-ab' ,'128k',
                                             '-ar', '44100',
                                             '-ac',  '1',
                                             
@@ -329,6 +329,8 @@ app.get("/encode_video", function(request, response){ //root dir
                   
                   '-map' , '0:0',  
                   '-codec:v','mpeg1video', 
+                  '-b','128k',
+                  
                   '-s', '340x340', 
                   '-r', '24', 
                   
@@ -345,7 +347,7 @@ app.get("/encode_video", function(request, response){ //root dir
                                   '-codec:a','libmp3lame',
                                   
                                   '-bufsize', '128k',
-                                  '-ab' ,'128',
+                                  '-ab' ,'128k',
                                   '-ar', '44100',
                                   '-ac',  '1',
 
