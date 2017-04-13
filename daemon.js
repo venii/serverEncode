@@ -129,7 +129,7 @@ app.get("/abre_relay", function(request, response){ //root dir
                             '-s', '340x340', 
                             '-r', '24', 
                             
-                            '-y',
+                           
                             '-f','mpegts', /*ou mpegts*/
                             'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                             
@@ -337,7 +337,7 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-b','64k',
                   '-s', '340x340', 
                   '-r', '24', 
-                  '-y',
+              
                   '-f','mpegts', /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   
