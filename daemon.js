@@ -122,10 +122,10 @@ app.get("/abre_relay", function(request, response){ //root dir
                             
                             '-map' , '0:0',  
                             '-codec:v','mpeg1video', 
-                            '-q:v','9',
-                            '-s', '340x340', 
+                            '-q:v','7',
+                            /*'-s', '340x340', 
                             '-r', '25', 
-                            
+                            */
                             
                             '-f','mpegts', /*ou mpegts*/
                             'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
@@ -324,9 +324,9 @@ app.get("/encode_video", function(request, response){ //root dir
                   
                   '-map' , '0:0',  
                   '-codec:v','mpeg1video', 
-                  '-s', '340x340', 
+                  /*'-s', '340x340', 
                   '-r', '25', 
-                  '-q:v','9',
+                  */'-q:v','7',
                   
                   '-f','mpegts', /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
