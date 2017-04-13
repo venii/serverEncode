@@ -138,7 +138,7 @@ app.get("/abre_relay", function(request, response){ //root dir
               if(request.param('audio')){
                 var params = params.concat(['-map', '0:1',  
                                             '-codec:a','libmp3lame',
-                                            '-q:a ','9',
+                                            '-q:a ','7',
                                             '-f', 'mp3', 
                                             'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                             ]);
@@ -271,7 +271,6 @@ app.get("/fecha_relay", function(request, response){ //root dir
             
 }); 	
 
-  
 app.get("/encode_video", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81/encode_video?idCamera=1&portaUsarRelay=8081&portaUsarWs=8082&rtsp=admin:admin@w3host.no-ip.org:9009/11&secret=1234
     // audio incluso
@@ -326,7 +325,8 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-codec:v','mpeg1video', 
                   /*'-s', '340x340', 
                   '-r', '25', 
-                  */'-q:v','7',
+                  */
+                  '-q:v','7',
                   
                   '-f','mpegts', /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
@@ -339,7 +339,7 @@ app.get("/encode_video", function(request, response){ //root dir
     if(request.param('audio')){
       var params = params.concat(['-map', '0:1',  
                                   '-codec:a','libmp3lame',
-                                  
+                                  '-q:a','7',
                                   '-f', 'mp3', 
                                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
