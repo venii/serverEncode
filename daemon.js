@@ -116,7 +116,7 @@ app.get("/abre_relay", function(request, response){ //root dir
         if(request.param('rtsp') ){
           if(!encoder[request.param('idCamera')]){
               var childProcess = require('child_process');
-              var params = ['-re',
+              var params = [
                             '-rtsp_transport','tcp',
                             '-i', 'rtsp://'+request.param('rtsp'),  
                             
@@ -124,7 +124,7 @@ app.get("/abre_relay", function(request, response){ //root dir
                             '-codec:v','mpeg1video', 
                             
                             '-s', '340x340', 
-                            '-r', '25', 
+                            '-r', '24', 
                             
                             
                             '-f','mpegts', /*ou mpegts*/
@@ -317,7 +317,7 @@ app.get("/encode_video", function(request, response){ //root dir
     }
   
     var childProcess = require('child_process');
-    var params = ['-re',
+    var params = [
                   '-rtsp_transport','tcp',
                   '-i', 'rtsp://'+request.param('rtsp'),  
                   
@@ -325,9 +325,6 @@ app.get("/encode_video", function(request, response){ //root dir
                   '-codec:v','mpeg1video', 
                   '-s', '340x340', 
                   '-r', '24', 
-                  
-                  '-b:v' ,'64k',
-                  '-bufsize', '64k',
                   
                   '-f','mpegts', /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
