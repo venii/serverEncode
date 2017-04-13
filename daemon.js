@@ -140,12 +140,10 @@ app.get("/abre_relay", function(request, response){ //root dir
                 var params = params.concat(['-map', '0:1',  
                                             '-codec:a','libmp3lame',
                                             
-                                            '-bufsize', '64k',
                                             '-ab' ,'64k',
                                             '-ar', '44100',
                                             '-ac',  '1',
-                                            
-                                            '-y',
+                                           
                                             '-f', 'mp3', 
                                             'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                             ]);
@@ -347,12 +345,10 @@ app.get("/encode_video", function(request, response){ //root dir
       var params = params.concat(['-map', '0:1',  
                                   '-codec:a','libmp3lame',
                                   
-                                  '-bufsize', '64k',
                                   '-ab' ,'64k',
                                   '-ar', '44100',
                                   '-ac',  '1',
-                                  '-y',
-
+                                  
                                   '-f', 'mp3', 
                                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
