@@ -4,10 +4,10 @@
     <admin>webmaster@localhost</admin>
 
     <limits>
-        <clients>100</clients>
+        <clients>50</clients>
         <sources>1</sources>
-        <queue-size>102400</queue-size>
-        <threadpool>5</threadpool>
+        <queue-size>52400</queue-size>
+        <threadpool>8</threadpool>
         <client-timeout>30</client-timeout>
         <header-timeout>15</header-timeout>
         <source-timeout>10</source-timeout>
