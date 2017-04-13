@@ -116,17 +116,19 @@ app.get("/abre_relay", function(request, response){ //root dir
         if(request.param('rtsp') ){
           if(!encoder[request.param('idCamera')]){
               var childProcess = require('child_process');
-              var params = [
+              var params = ['-re',
                             '-rtsp_transport','tcp',
                             '-i', 'rtsp://'+request.param('rtsp'),  
                             
                             '-map' , '0:0',  
                             '-codec:v','mpeg1video', 
                             
+                           '-bufsize', '64k',
+                           '-b','64k',
                             '-s', '340x340', 
                             '-r', '24', 
                             
-                            
+                            '-y',
                             '-f','mpegts', /*ou mpegts*/
                             'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                             
@@ -139,12 +141,12 @@ app.get("/abre_relay", function(request, response){ //root dir
                 var params = params.concat(['-map', '0:1',  
                                             '-codec:a','libmp3lame',
                                             
-                                            '-bufsize', '128k',
-                                            '-ab' ,'128k',
+                                            '-bufsize', '64k',
+                                            '-ab' ,'64k',
                                             '-ar', '44100',
                                             '-ac',  '1',
                                             
-
+                                            '-y',
                                             '-f', 'mp3', 
                                             'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                             ]);
@@ -323,17 +325,18 @@ app.get("/encode_video", function(request, response){ //root dir
     }
   
     var childProcess = require('child_process');
-    var params = [
+    var params = ['-re',
                   '-rtsp_transport','tcp',
                   '-i', 'rtsp://'+request.param('rtsp'),  
                   
                   '-map' , '0:0',  
                   '-codec:v','mpeg1video', 
-                  '-b','128k',
-                  
+
+                  '-bufsize', '64k',
+                  '-b','64k',
                   '-s', '340x340', 
                   '-r', '24', 
-                  
+                  '-y',
                   '-f','mpegts', /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   
@@ -346,10 +349,11 @@ app.get("/encode_video", function(request, response){ //root dir
       var params = params.concat(['-map', '0:1',  
                                   '-codec:a','libmp3lame',
                                   
-                                  '-bufsize', '128k',
-                                  '-ab' ,'128k',
+                                  '-bufsize', '64k',
+                                  '-ab' ,'64k',
                                   '-ar', '44100',
                                   '-ac',  '1',
+                                  '-y',
 
                                   '-f', 'mp3', 
                                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
