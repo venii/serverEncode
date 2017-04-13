@@ -122,10 +122,10 @@ app.get("/abre_relay", function(request, response){ //root dir
                             
                             '-map' , '0:0',  
                             '-codec:v','mpeg1video', 
-                            '-q:v','7',
-                            /*'-s', '340x340', 
+                            
+                            '-s', '340x340', 
                             '-r', '25', 
-                            */
+                            
                             
                             '-f','mpegts', /*ou mpegts*/
                             'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
@@ -138,7 +138,7 @@ app.get("/abre_relay", function(request, response){ //root dir
               if(request.param('audio')){
                 var params = params.concat(['-map', '0:1',  
                                             '-codec:a','libmp3lame',
-                                            '-q:a ','7',
+                                            
                                             '-f', 'mp3', 
                                             'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                             ]);
@@ -340,8 +340,10 @@ app.get("/encode_video", function(request, response){ //root dir
     if(request.param('audio')){
       var params = params.concat(['-map', '0:1',  
                                   '-codec:a','libmp3lame',
+                                  
                                   '-b:a' ,'64k',
                                   '-bufsize', '64k',
+
                                   '-f', 'mp3', 
                                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                   ]);
@@ -425,7 +427,7 @@ app.get("/encode_audio", function(request, response){ //root dir
                   'rtsp://'+request.param('rtsp'),  
                   '-map', '0:0',                 
                   '-codec:a', 'libmp3lame',   
-        
+
                   '-f', 'mp3',           
                   'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                   ];
