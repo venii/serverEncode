@@ -112,6 +112,9 @@
 
 	Execute o comando "sudo chmod 777 -R serverEncode/ icecast-kh-icecast-2.4.0-kh3"
 
+	sudo apt-get install openssh-server
+    sudo service ssh start
+    sudo update-rc.d ssh defaults
 
 	Abrir virtual box 
 		Arquivo exportar appliance > colocar o nome do arquivo e salvar
