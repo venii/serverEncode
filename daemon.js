@@ -140,11 +140,11 @@ app.get("/abre_relay", function(request, response){ //root dir
                 var params = params.concat(['-map', '0:1',  
                                             '-codec:a','libmp3lame',
                                             
-                                            '-ab' ,'64k',
+                                            /*'-ab' ,'64k',
                                             '-ar', '44100',
                                             '-ac',  '1',
                                            
-                                            '-f', 'mp3', 
+                                            '-f', 'mp3', */
                                             'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                             ]);
               }
