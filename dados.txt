@@ -249,3 +249,83 @@ ffmpeg -rtsp_transport tcp -i "rtsp://w3host.no-ip.org:9010/Streaming/Channels/1
 
 
   ffmpeg -f dshow -i audio="Microfone (Realtek High Definition Audio)" -map 0:0 -c:a libmp3lame -f mp3 "icecast://camera:camera@localhost:8000/camera_1.mp3"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  Port 8090                      # Port to bind the server to
+BindAddress 0.0.0.0
+MaxHTTPConnections 2000
+MaxClients 1000
+MaxBandwidth 10000             # Maximum bandwidth per client
+                               # set this high enough to exceed stream bitrate
+CustomLog -
+NoDaemon                       # Remove this if you want FFserver to daemonize after start
+<Feed feed1.ffm>               # This is the input feed where FFmpeg will send
+   File ./feed1.ffm            # video stream.
+   FileMaxSize 1G              # Maximum file size for buffering video
+   ACL allow 127.0.0.1         # Allowed IPs
+</Feed>
+<Stream test.webm>          # Output stream URL definition
+   Feed feed1.ffm              # Feed from which to receive video
+   Format webm
+   # Audio settings
+   AudioCodec vorbis
+   AudioBitRate 64             # Audio bitrate
+   # Video settings
+   VideoCodec libvpx
+   VideoSize 720x576           # Video resolution
+   VideoFrameRate 25           # Video FPS
+   AVOptionVideo flags +global_header  # Parameters passed to encoder
+                                       # (same as ffmpeg command-line parameters)
+   AVOptionVideo cpu-used 0
+   AVOptionVideo qmin 10
+   AVOptionVideo qmax 42
+   AVOptionVideo quality good
+   AVOptionAudio flags +global_header
+   PreRoll 15
+   StartSendOnKey
+   VideoBitRate 400            # Video bitrate
+</Stream>
+<Stream status.html>        # Server status URL
+   Format status
+   # Only allow local people to get the status
+   ACL allow localhost
+   ACL allow 192.168.0.0 192.168.255.255
+</Stream>
+<Redirect index.html>    # Just an URL redirect for index
+   # Redirect index.html to the appropriate site
+   URL http://www.ffmpeg.org/
+</Redirect>
+ffmpeg -f video4linux2 -s 640x480 -r 25 -rtsp_transport tcp -i rtsp://w3host.no-ip.org:9010/Streaming/Channels/1 -f alsa -i pulse http://localhost:8090/feed1.ffm
