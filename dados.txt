@@ -329,3 +329,8 @@ NoDaemon                       # Remove this if you want FFserver to daemonize a
    URL http://www.ffmpeg.org/
 </Redirect>
 ffmpeg -f video4linux2 -s 640x480 -r 25 -rtsp_transport tcp -i rtsp://w3host.no-ip.org:9010/Streaming/Channels/1 -f alsa -i pulse http://localhost:8090/feed1.ffm
+
+
+
+//ENCODE PARA SPEAKER
+ffmpeg -i input.wav -ar 8000 -acodec pcm_u8 -ac 1 1.wav
