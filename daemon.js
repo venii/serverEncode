@@ -29,8 +29,8 @@ app.get("/ultima_porta",function(request,response){
       return;
     }
 
-    var port_start_in   = 8081;
-    var port_start_out  = 8082;
+    var port_start_in   = 8001;
+    var port_start_out  = 8002;
     var distancia_portas= 2;
 
     if(portas.length == 0){
