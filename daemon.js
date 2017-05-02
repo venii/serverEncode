@@ -570,7 +570,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
     
         process.stdout.on('data', function(data) {
-            //console.log(data);
+            console.log(data);
         });
 
         process.stderr.on('data', function(data) {
