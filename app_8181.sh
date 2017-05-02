@@ -1,5 +1,6 @@
 #!/bin/bash
 #/etc/init.d/app_8181
+
 ### BEGIN INIT INFO
 # Provides:          name
 # Required-Start:    $syslog
