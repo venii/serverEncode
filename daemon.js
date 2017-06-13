@@ -402,90 +402,6 @@ app.get("/fecha_camera", function(request, response){ //root dir
     
 });  
 
-app.get("/encode_audio", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81/encode_audio?idCamera=1&rtsp=w3host.no-ip.org:9009/11
-    //request.param('idCamera')
-
-    if(!request.param('rtsp')){
-      response.json({ error:'falta o parametro rtsp.'});
-      return;
-    }
-
-    if(!request.param('idCamera')){
-      response.json({ error:'falta o parametro idCamera.'});     
-      return;
-    }
-
-    
-    if(audioEncoder[request.param('idCamera')]){
-      response.json({ error:'audio ja esta sendo streaming.'});    
-      return;
-    }
-    
-    var childProcess = require('child_process');
-    var params = ['-re',
-                  '-rtsp_transport',
-                  'tcp',
-                  '-i',
-                  
-                  'rtsp://'+request.param('rtsp'),  
-                  '-map', '0:0',                 
-                  '-codec:a', 'libmp3lame',   
-
-                  '-f', 'mp3',           
-                  'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
-                  ];
-    
-    console.log('ffmpeg '+params.join(' '));
-    
-    hostSemPorta = request.headers.host.split(":")[0];
-
-    runScript(childProcess,
-              "audio",
-              'ffmpeg',
-              request.param('idCamera'),
-              params,
-        function(idCamera){
-            response.json({ idCamera:idCamera,
-                            httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"});
-
-        }, 
-        function (err) {
-            console.log('Error:',err);
-    });
-    
-});
-
-
-
-app.get("/fecha_audio", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
-    
-    //request.param('idCamera')
-    if(!request.param('idCamera')){
-      response.json({ error:'falta o parametro idCamera.'});
-      return;
-    }
-    //previni abrir outros relays
-    
-    if(audioEncoder[request.param('idCamera')]){
-
-        var encodeCam = audioEncoder[request.param('idCamera')]
-        process.kill(encodeCam.pid,'SIGINT');
-        
-        response.json({ ok:'audio foi fechada.'});
-        
-        delete audioEncoder[request.param('idCamera')];
-        return;
-    }else{
-        response.json({ error:'audio não foi achada.'});
-        return;
-    }
-            
-   
-}); 
-
-
 var audioServer = false;
 app.get("/server_audio", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81/encode_audio?idCamera=1&rtsp=w3host.no-ip.org:9009/11
@@ -498,7 +414,6 @@ app.get("/server_audio", function(request, response){ //root dir
     /*
         chown user /usr/local/var/log/icecast/error.log
         chown user /usr/local/var/log/icecast/access.log
-        
         linux
     */
     var exec = require('child_process').exec;
@@ -516,8 +431,8 @@ app.get("/server_audio", function(request, response){ //root dir
     });
     
 }); 
-
 app.listen(port);
+
 //no evento de sair do webrelay
 //fazer o webrealy do jsmpeg enviar sinal para desligar ffmpeg e relay
 
@@ -534,7 +449,6 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
                 return;
 
             invoked = true;
-
             callbackError(err);
         });
 
@@ -544,10 +458,8 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
                 return;
 
             invoked = true;
-
             //var err = code === 0 ? null : new Error('exit code ' + code);
             err = "camera relay fechado ("+idCamera+").";
-            
             callbackError(err);
         });
 
@@ -605,10 +517,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               console.log('icecast close');
             }
 
-
-           
         });
-
         callbackSucess(idCamera);
     }
 
