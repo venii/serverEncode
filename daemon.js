@@ -115,9 +115,15 @@ app.get("/abre_relay", function(request, response){ //root dir
 
         if(request.param('rtsp') ){
           if(!encoder[request.param('idCamera')]){
+
+              var rtsp_transport = 'tcp';
+              if(request.param('rtsp_transport')){
+                rtsp_transport = request.param('rtsp_transport');
+              }
+
               var childProcess = require('child_process');
               var params = ['-re',
-                            '-rtsp_transport','tcp',
+                            '-rtsp_transport',rtsp_transport,
                             '-i', 'rtsp://'+request.param('rtsp'),  
                             
                             '-map' , '0:0',  
@@ -320,10 +326,15 @@ app.get("/encode_video", function(request, response){ //root dir
       response.json({ error:'voce deve abrir o relay desta camera antes.'});    
       return;
     }
-  
+
+    var rtsp_transport = 'tcp';
+    if(request.param('rtsp_transport')){
+      rtsp_transport = request.param('rtsp_transport');
+    }
+
     var childProcess = require('child_process');
     var params = ['-re',
-                  '-rtsp_transport','tcp',
+                  '-rtsp_transport',rtsp_transport,
                   '-i', 'rtsp://'+request.param('rtsp'),  
                   
                   '-map' , '0:0',  
@@ -338,7 +349,7 @@ app.get("/encode_video", function(request, response){ //root dir
                   
                   ];
 
-
+ffmpeg -re -rtsp_transport tcp udp -i rtsp://admin:20160404@192.168.0.31:554/onvif1 -map 0:0 -codec:v mpeg1video -b 64k -s 340x340 -r 24 -f mpegts http://localhost:8001/1234
 
     console.log('use audio?',request.param('audio'));
     if(request.param('audio')){
