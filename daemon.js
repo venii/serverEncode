@@ -160,7 +160,7 @@ app.get("/abre_relay", function(request, response){ //root dir
                       
                       response.json({ idCamera:idCamera,
                                       portaUsar:request.param('portaUsar'),
-                                      wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
+                                      wsVideo: "wss://"+hostSemPorta+":"+request.param('portaUsarWs'),
                                       httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3",
                                       reencoded  : true
                                     });
@@ -171,14 +171,14 @@ app.get("/abre_relay", function(request, response){ //root dir
               });  
           }else{
             response.json({ error:'relay já aberto para esta camera.',
-                            wsVideo: "ws://"+hostSemPorta+":"+portalReal,
+                            wsVideo: "wss://"+hostSemPorta+":"+portalReal,
                             httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
                           });
             return;
           }
         }else{
           response.json({ error:'relay já aberto para esta camera.',
-                          wsVideo: "ws://"+hostSemPorta+":"+portalReal,
+                          wsVideo: "wss://"+hostSemPorta+":"+portalReal,
                           httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
                         });
           return;
@@ -365,7 +365,7 @@ app.get("/encode_video", function(request, response){ //root dir
             
             response.json({ idCamera:idCamera,
                             portaUsar:request.param('portaUsar'),
-                            wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
+                            wsVideo: "wss://"+hostSemPorta+":"+request.param('portaUsarWs'),
                             httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3"
                           });
 
