@@ -135,7 +135,7 @@ app.get("/abre_relay", function(request, response){ //root dir
 
 
 
-
+              console.log('use audio?',request.param('audio'));
               if(request.param('audio')){
                 var params = params.concat(['-map', '0:1',  
                                             '-codec:a','libmp3lame',
@@ -340,7 +340,7 @@ app.get("/encode_video", function(request, response){ //root dir
 
 
 
-
+    console.log('use audio?',request.param('audio'));
     if(request.param('audio')){
       var params = params.concat(['-map', '0:1',  
                                   '-codec:a','libmp3lame',
