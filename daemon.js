@@ -125,34 +125,27 @@ app.get("/abre_relay", function(request, response){ //root dir
               var params = ['-re',
                             '-rtsp_transport',rtsp_transport,
                             '-i', 'rtsp://'+request.param('rtsp'),  
-                            
                             '-map' , '0:0',  
                             '-codec:v','mpeg1video',
-
-                           '-b','64k',
+                            '-b','64k',
                             '-s', '340x340', 
                             '-r', '24', 
-                            
-                           
                             '-f','mpegts', /*ou mpegts*/
                             'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
-                            
                             ];
-
-
 
               console.log('use audio?',request.param('audio'));
               if(request.param('audio')){
-                var params = params.concat(['-map', '0:1',  
-                                            '-codec:a','libmp3lame',
-                                            
-                                            '-ab' ,'64k',
-                                            '-ar', '44100',
-                                            '-ac',  '1',
-                                           
-                                            '-f', 'mp3', 
-                                            'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
-                                            ]);
+                if(request.param('audio') == 1){
+                  var params = params.concat(['-map', '0:1',  
+                                              '-codec:a','libmp3lame',
+                                              '-ab' ,'64k',
+                                              '-ar', '44100',
+                                              '-ac',  '1',
+                                              '-f', 'mp3', 
+                                              'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
+                                              ]);
+                }
               }
               console.log('ffmpeg '+params.join(' '));
               
@@ -335,34 +328,29 @@ app.get("/encode_video", function(request, response){ //root dir
     var childProcess = require('child_process');
     var params = ['-re',
                   '-rtsp_transport',rtsp_transport,
-                  '-i', 'rtsp://'+request.param('rtsp'),  
-                  
+                  '-i', 'rtsp://'+request.param('rtsp'), 
                   '-map' , '0:0',  
                   '-codec:v','mpeg1video', 
-                  
                   '-b','64k',
                   '-s', '340x340', 
                   '-r', '24', 
-              
                   '-f','mpegts', /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   
                   ];
 
-ffmpeg -re -rtsp_transport tcp udp -i rtsp://admin:20160404@192.168.0.31:554/onvif1 -map 0:0 -codec:v mpeg1video -b 64k -s 340x340 -r 24 -f mpegts http://localhost:8001/1234
-
     console.log('use audio?',request.param('audio'));
     if(request.param('audio')){
-      var params = params.concat(['-map', '0:1',  
-                                  '-codec:a','libmp3lame',
-                                  
-                                  '-ab' ,'64k',
-                                  '-ar', '44100',
-                                  '-ac',  '1',
-                                  
-                                  '-f', 'mp3', 
-                                  'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
-                                  ]);
+      if(request.param('audio') == 1){
+        var params = params.concat(['-map', '0:1',  
+                                    '-codec:a','libmp3lame',
+                                    '-ab' ,'64k',
+                                    '-ar', '44100',
+                                    '-ac',  '1',
+                                    '-f', 'mp3', 
+                                    'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
+                                    ]);
+      }
     }
     console.log('ffmpeg '+params.join(' '));
     
