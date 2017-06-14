@@ -495,6 +495,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
       
         if(tipo == "video"){
           encoder[idCamera] = process;
+          processos[idCamera].statusTrasmissao = "OK";
         }
 
         if(tipo == "audio"){
