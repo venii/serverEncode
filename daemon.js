@@ -529,7 +529,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               
               try{
                 processos[idCamera].statusTrasmissao = "FAIL";
-              }catch(ex){
+              }catch(ex){ 
 
               }
             }
