@@ -324,14 +324,14 @@ app.get("/encode_video", function(request, response){ //root dir
 
     var childProcess = require('child_process');
     var params = ['-re',
-                  '-rtsp_transport',rtsp_transport,
-                  '-i', 'rtsp://'+request.param('rtsp'), 
-                  '-map' , '0:0',  
-                  '-codec:v','mpeg1video', 
-                  '-b','64k',
-                  '-s', '340x340', 
-                  '-r', '24', 
-                  '-f','mpegts', /*ou mpegts*/
+                  '-rtsp_transport', rtsp_transport,
+                  '-i'             , 'rtsp://'+request.param('rtsp'), 
+                  '-map'           , '0:0',  
+                  '-codec:v'       , 'mpeg1video', 
+                  '-b', '64k'      ,
+                  '-s', '340x340'  , 
+                  '-r', '24'       , 
+                  '-f', 'mpegts'   , /*ou mpegts*/
                   'http://localhost:'+request.param('portaUsarRelay')+'/'+request.param('secret')
                   
                   ];
@@ -339,12 +339,12 @@ app.get("/encode_video", function(request, response){ //root dir
     console.log('use audio?',request.param('audio'));
     if(request.param('audio')){
       if(request.param('audio') == 1){
-        var params = params.concat(['-map', '0:1',  
+        var params = params.concat(['-map'    , '0:1',  
                                     '-codec:a','libmp3lame',
-                                    '-ab' ,'64k',
-                                    '-ar', '44100',
-                                    '-ac',  '1',
-                                    '-f', 'mp3', 
+                                    '-ab'     ,'64k',
+                                    '-ar'     , '44100',
+                                    '-ac'     ,  '1',
+                                    '-f'      , 'mp3', 
                                     'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                     ]);
       }
@@ -379,6 +379,7 @@ app.get("/status_relay", function(request, response){
     return;
   }
   try{
+    console.log(processos[idCamera]);
     response.json({ idCamera:request.param('idCamera'),
                     statusTrasmissao:processos[idCamera].statusTrasmissao
                   });
