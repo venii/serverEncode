@@ -384,7 +384,9 @@ app.get("/status_relay", function(request, response){
                   });
   }catch(ex){
     response.json({ idCamera:request.param('idCamera'),
-                    statusTrasmissao:"RELAY_NOT_FOUND"
+                    statusTrasmissao:"RELAY_NOT_FOUND",
+                    processos:processos
+
                   });
   }
 });
