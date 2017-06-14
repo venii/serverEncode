@@ -527,6 +527,11 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
               //SIGINT processo
               console.log('camera video ('+idCamera+'): desligada');
               
+              try{
+                processos[idCamera].statusTrasmissao = "FAIL";
+              }catch(ex){
+
+              }
             }
 
             if(tipo == "audio"){
