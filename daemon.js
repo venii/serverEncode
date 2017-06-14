@@ -137,18 +137,18 @@ app.get("/abre_relay", function(request, response){ //root dir
               console.log('use audio?',request.param('audio'));
               if(request.param('audio')){
                 if(request.param('audio') == 1){
-                  var params = params.concat(['-map', '0:1',  
-                                              '-codec:a','libmp3lame',
-                                              '-ab' ,'64k',
-                                              '-ar', '44100',
-                                              '-ac',  '1',
-                                              '-f', 'mp3', 
+                  var params = params.concat(['-map'    , '0:1',  
+                                              '-codec:a', 'libmp3lame',
+                                              '-ab'     , '64k',
+                                              '-ar'     , '44100',
+                                              '-ac'     , '1',
+                                              '-f'      , 'mp3', 
                                               'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
                                               ]);
                 }
               }
+
               console.log('ffmpeg '+params.join(' '));
-              
               hostSemPorta = request.headers.host.split(":")[0];
 
               runScript(childProcess,
@@ -158,11 +158,11 @@ app.get("/abre_relay", function(request, response){ //root dir
                         params,
                   function(idCamera){
                       
-                      response.json({ idCamera:idCamera,
-                                      portaUsar:request.param('portaUsar'),
-                                      wsVideo: "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
+                      response.json({ idCamera  : idCamera,
+                                      portaUsar : request.param('portaUsar'),
+                                      wsVideo   : "ws://"+hostSemPorta+":"+request.param('portaUsarWs'),
                                       httpAudio : "http://"+hostSemPorta+":8000"+"/camera_"+idCamera+".mp3",
-                                      reencoded  : true
+                                      reencoded : true
                                     });
 
                   }, 
@@ -170,25 +170,22 @@ app.get("/abre_relay", function(request, response){ //root dir
                       console.log('Error:',err);
               });  
           }else{
-            response.json({ error:'relay já aberto para esta camera.',
-                            wsVideo: "ws://"+hostSemPorta+":"+portalReal,
+            response.json({ error    : 'relay já aberto para esta camera.',
+                            wsVideo  : "ws://"+hostSemPorta+":"+portalReal,
                             httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
                           });
             return;
           }
         }else{
-          response.json({ error:'relay já aberto para esta camera.',
-                          wsVideo: "ws://"+hostSemPorta+":"+portalReal,
+          response.json({ error    :'relay já aberto para esta camera.',
+                          wsVideo  : "ws://"+hostSemPorta+":"+portalReal,
                           httpAudio: "http://"+hostSemPorta+":8000"+"/camera_"+request.param('idCamera')+".mp3"
                         });
           return;
 
-
         }
 
     }
-        
-    
             
     if(portas_abertas[request.param('portaUsarRelay')]){
         response.json({ error:'porta inicial ja usada.'});
@@ -376,6 +373,22 @@ app.get("/encode_video", function(request, response){ //root dir
     
 }); 	
 
+app.get("/status_relay", function(request, response){
+  if(!request.param('idCamera')){
+    response.json({ error:'falta o parametro idCamera.'});
+    return;
+  }
+  try{
+    response.json({ idCamera:idCamera,
+                    statusTrasmissao:processos[idCamera].statusTrasmissao
+                  });
+  }catch(ex){
+    response.json({ idCamera:idCamera,
+                    statusTrasmissao:"RELAY_NOT_FOUND"
+                  });
+  }
+});
+
 app.get("/fecha_camera", function(request, response){ //root dir
     //http://rtec.westus.cloudapp.azure.com:81?idCamera=1
     
@@ -443,7 +456,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     if(tipo == "fork"){
     	var process = childProcess.fork(scriptPath,params);
         processos[idCamera] = process;
-
+        processos[idCamera].statusTrasmissao = "OK";
         process.on('error', function (err) {
             if (invoked) 
                 return;
@@ -460,6 +473,13 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
             invoked = true;
             //var err = code === 0 ? null : new Error('exit code ' + code);
             err = "camera relay fechado ("+idCamera+").";
+
+            try{
+              processos[idCamera].statusTrasmissao = "FAIL";
+            }catch(ex){
+
+            }
+
             callbackError(err);
         });
 
