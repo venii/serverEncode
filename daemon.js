@@ -7,9 +7,9 @@ var app = express();
 app.use(express.static(__dirname + "/public")); //use static files in ROOT/public folder
 app.options('*', cors());
 
-var audioEncoder = {};
-var encoder   = {};
-var processos = {};
+var audioEncoder   = {};
+var encoder        = {};
+var processos      = {};
 var portas_abertas = {};
 
 app.all('/*', function(req, res, next) {
@@ -17,7 +17,6 @@ app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   res.header("Access-Control-Allow-Methods", "GET, POST","PUT");
   next();
-
 });
 
 app.get("/ultima_porta",function(request,response){
@@ -29,9 +28,9 @@ app.get("/ultima_porta",function(request,response){
       return;
     }
 
-    var port_start_in   = 8001;
-    var port_start_out  = 8002;
-    var distancia_portas= 2;
+    var port_start_in    = 8001;
+    var port_start_out   = 8002;
+    var distancia_portas = 2;
 
     if(portas.length == 0){
         response.json({ portaUsarRelay:port_start_in,
@@ -416,36 +415,6 @@ app.get("/fecha_camera", function(request, response){ //root dir
             
     
 });  
-
-var audioServer = false;
-app.get("/server_audio", function(request, response){ //root dir
-    //http://rtec.westus.cloudapp.azure.com:81/encode_audio?idCamera=1&rtsp=w3host.no-ip.org:9009/11
-    //request.param('idCamera')
-
-    if(audioServer){
-      response.json({ error:'ja foi aberto.'});
-      return;
-    }
-    /*
-        chown user /usr/local/var/log/icecast/error.log
-        chown user /usr/local/var/log/icecast/access.log
-        linux
-    */
-    var exec = require('child_process').exec;
-    exec('cd /home/rtec/serverEncode && sudo icecast -c icecast_linux.xml', function(error, stdout, stderr) {
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        
-        if (error !== null) {
-            response.json({ error:error,stderr:stderr});
-            return;
-        }else{
-          response.json({ stdout:stdout,stderr:stderr});
-          return;
-        }
-    });
-    
-}); 
 app.listen(port);
 
 //no evento de sair do webrelay
@@ -459,6 +428,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
     	var process = childProcess.fork(scriptPath,params);
         processos[idCamera] = process;
         processos[idCamera].statusTrasmissao = "OK";
+        
         process.on('error', function (err) {
             if (invoked) 
                 return;
@@ -469,7 +439,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
         // execute the callback once the process has finished running
         process.on('exit', function (code) {
-            if (invoked) 
+            if (invoked)
                 return;
 
             invoked = true;
@@ -489,7 +459,7 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
     }
 
-    if(tipo =="video" || tipo == "audio" || tipo == "icecast"){
+    if(tipo =="video"){
 	      var process = childProcess.execFile(scriptPath,params);
         //var process = childProcess.spawn(scriptPath,params);
       
@@ -498,27 +468,20 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
           processos[idCamera].statusTrasmissao = "OK";
         }
 
-        if(tipo == "audio"){
-          audioEncoder[idCamera] = process;
-        }
-
-    
         process.stdout.on('data', function(data) {
-            //console.log(data);
+            if(tipo == "video"){
+              processos[idCamera].statusTrasmissao = "OK";
+              //console.log('camera video ('+idCamera+'): recebendo video',data);
+            }
         });
 
         process.stderr.on('data', function(data) {
            
             if(tipo == "video"){
+              processos[idCamera].statusTrasmissao = "OK";
               console.log('camera video ('+idCamera+'): recebendo video',data);
             }
-            if(tipo == "audio"){
-              console.log('camera audio ('+idCamera+'): recebendo audio',data);
-            }
-            if(tipo == "icecast"){
-              console.log('icecast',data);
-            }
-            
+      
         });
 
         process.on('close', function() {
@@ -534,17 +497,6 @@ function runScript(childProcess,tipo,scriptPath,idCamera,params,callbackSucess,c
 
               }
             }
-
-            if(tipo == "audio"){
-              delete audioEncoder[idCamera];
-              console.log('camera audio ('+idCamera+'): desligada');
-            
-            }
-
-            if(tipo == "icecast"){
-              console.log('icecast close');
-            }
-
         });
         callbackSucess(idCamera);
     }
