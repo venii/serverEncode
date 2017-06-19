@@ -120,7 +120,7 @@ app.get("/abre_relay", function(request, response){ //root dir
               }
 
               var childProcess = require('child_process');
-              paramEncoderVideo(rtsp_transport,request.param('rtsp'),request.param('portaUsarRelay'),request.param('secret'));
+              params = paramEncoderVideo(rtsp_transport,request.param('rtsp'),request.param('portaUsarRelay'),request.param('secret'));
 
               console.log('ffmpeg '+params.join(' '));
               hostSemPorta = request.headers.host.split(":")[0];
@@ -297,7 +297,7 @@ app.get("/encode_video", function(request, response){ //root dir
     }
 
     var childProcess = require('child_process');
-    paramEncoderVideo(rtsp_transport,request.param('rtsp'),request.param('portaUsarRelay'),request.param('secret'));
+    params = paramEncoderVideo(rtsp_transport,request.param('rtsp'),request.param('portaUsarRelay'),request.param('secret'));
 
     console.log('ffmpeg '+params.join(' '));
     hostSemPorta = request.headers.host.split(":")[0];
@@ -465,4 +465,6 @@ function paramEncoderVideo(rtsp_transport,rtsp,portaUsarRelay,secret){
   '-f','mpegts', /*ou mpegts*/
   'http://localhost:'+portaUsarRelay+'/'+secret
   ];
+
+  return params;
 }
