@@ -299,21 +299,7 @@ app.get("/encode_video", function(request, response){ //root dir
     var childProcess = require('child_process');
     paramEncoderVideo(rtsp_transport,request.param('rtsp'),request.param('portaUsarRelay'),request.param('secret'));
 
-    console.log('use audio?',request.param('audio'));
-    if(request.param('audio')){
-      if(request.param('audio') == 1){
-        var params = params.concat(['-map'    , '0:1',  
-                                    '-codec:a','libmp3lame',
-                                    '-ab'     ,'64k',
-                                    '-ar'     , '44100',
-                                    '-ac'     ,  '1',
-                                    '-f'      , 'mp3', 
-                                    'icecast://camera:camera@localhost:8000/camera_'+request.param('idCamera')+".mp3"
-                                    ]);
-      }
-    }
     console.log('ffmpeg '+params.join(' '));
-    
     hostSemPorta = request.headers.host.split(":")[0];
 
     runScript(childProcess,
