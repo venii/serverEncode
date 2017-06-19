@@ -459,9 +459,9 @@ function paramEncoderVideo(rtsp_transport,rtsp,portaUsarRelay,secret){
   '-i', 'rtsp://'+rtsp,  
   '-map' , '0:0',  
   '-codec:v','mpeg1video',
-  '-b','64k',
+  '-b','128k',
   '-s', '340x340', 
-  '-r', '24', 
+  //'-r', '24', 
   '-f','mpegts', /*ou mpegts*/
   'http://localhost:'+portaUsarRelay+'/'+secret
   ];
